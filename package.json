@@ -1,0 +1,27 @@
+{
+  "name": "book-a-table",
+  "version": "0.0.1",
+  "description": "AIP Assessment 3 2018",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "server": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jayyzhao/AIP2018ASSESSMENT3.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jayyzhao/AIP2018ASSESSMENT3/issues"
+  },
+  "homepage": "https://github.com/jayyzhao/AIP2018ASSESSMENT3#readme",
+  "dependencies": {
+    "concurrently": "^3.6.1",
+    "express": "^4.16.3"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.3"
+  }
+}
