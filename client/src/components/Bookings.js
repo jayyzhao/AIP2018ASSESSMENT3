@@ -13,7 +13,7 @@ class Bookings extends Component {
                         </div>
                         <div className="col-md-6"> 
                             <br/>
-                            <h1>New Bookings</h1>
+                            <h1>New Booking</h1>
                             <form>
                                 <div className="form-group">
                                     <label>Resturant</label>
