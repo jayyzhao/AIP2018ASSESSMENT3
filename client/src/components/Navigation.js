@@ -1,5 +1,7 @@
 import React from 'react';
 
+
+
 const NavItem = props => {
   const pageURI = window.location.pathname+window.location.search
   const liClassName = (props.path === pageURI) ? "nav-item active" : "nav-item";

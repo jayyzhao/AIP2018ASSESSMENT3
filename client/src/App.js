@@ -6,23 +6,27 @@ import Navigation from './components/Navigation'
 import Footer from './components/Footer'
 import Banner from './components/Banner'
 import Gallery from './components/Gallery'
+import {
+  BrowserRouter as Router,
+  Route,
+  Link
+} from 'react-router-dom'
 
 class App extends Component {
   render() {
     return (
-      <div className="container">
+    <div className="container">
       <Navigation />
       <Banner />
-      <Gallery />
+      <Router>
+        <div>
+        <Route exact path="/" component={Gallery}/>
+        <Route path="/Book" />
+        <Route path="/showBookings" />
+        </div>
+      </Router> 
       <Footer />
-      </div>
-      // <div className="App">
-      //   <header className="App-header">
-      //     <img src={logo} className="App-logo" alt="logo" />
-      //     <h1 className="App-title">Welcome to React</h1>
-      //   </header>
-      //   <Customers />
-      // </div>
+    </div>
     );
   }
 }
