@@ -26,11 +26,11 @@ app.get('/api/users', (req, res) => {
      var request = new sql.Request();
        
      // query to the database and get the records
-     request.query('select * from Users', function (err, recordset) {
+     request.query('select * from users', function (err, result) {
          
          if (err) console.log(err)
          // send records as a response
-         res.send(recordset);
+         res.json(result.recordset);
          
      });
 
