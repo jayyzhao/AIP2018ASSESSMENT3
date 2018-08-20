@@ -20,9 +20,7 @@ sql.connect(config, function (err) {
     if (err) console.log(err);
 });
 
-
-
-app.get('/api/test', (req, res) => {
+app.get('/api/users', (req, res) => {
 
      // create Request object
      var request = new sql.Request();
