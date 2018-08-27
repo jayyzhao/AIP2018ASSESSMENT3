@@ -5,7 +5,7 @@ var sql = require("mssql");
 
 var config = {
     user: process.env.DB_USER,
-    password: 'Password1234',
+    password: process.env.DB_PASSWORD,
     server: 'book-a-table.database.windows.net', 
     database: 'book-a-table', 
 
