@@ -11,12 +11,18 @@ class App extends Component {
   render() {
     return (
     <div className="container">
+      {/* Include Navigation Component */}
       <Navigation />
+      {/* Include Banner Component */}
       <Banner />
+      {/* Initialize a Router to generate Path and Route dependencies */}
       <Router>
         <div>
+        {/* Root Path - to show Gallery Component */}
         <Route exact path="/" component={Gallery}/>
+        {/* Booking Path - for New Bookings */}
         <Route path="/Book" render={()=><Bookings newBooking={true}/>}/>
+        {/* Path used to show Bookings */}
         <Route path="/showBookings" render={()=><Bookings newBooking={false}/>}/>
         </div>
       </Router> 
