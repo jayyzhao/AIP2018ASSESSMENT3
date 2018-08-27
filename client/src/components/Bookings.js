@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 
 class Bookings extends Component {
   render() {
+    // Declare the property value that gets passed through
     const newBooking = this.props.newBooking;
-
+    // Check if this is for a new Booking or not
     if(newBooking){
         return (
             <div>
@@ -14,6 +15,7 @@ class Bookings extends Component {
                         <div className="col-md-6"> 
                             <br/>
                             <h1>New Booking</h1>
+                            {/* Form for making a new Booking */}
                             <form>
                                 <div className="form-group">
                                     <label>Resturant</label>
@@ -34,6 +36,7 @@ class Bookings extends Component {
             </div>
         );
     }
+    //If not a new booking - return existing bookings
     else{
         return(
             <div>
