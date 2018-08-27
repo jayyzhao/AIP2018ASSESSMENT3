@@ -4,7 +4,7 @@ const app = express();
 var sql = require("mssql");
 
 var config = {
-    user: 'adm',
+    user: process.env.DB_USER,
     password: 'Password1234',
     server: 'book-a-table.database.windows.net', 
     database: 'book-a-table', 
