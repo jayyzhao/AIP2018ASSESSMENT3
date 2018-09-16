@@ -5,6 +5,7 @@ import Footer from './components/Footer'
 import Banner from './components/Banner'
 import Gallery from './components/Gallery'
 import Bookings from './components/Bookings'
+import WordGuesser from './components/WordGuesser'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 
 class App extends Component {
@@ -24,6 +25,7 @@ class App extends Component {
         <Route path="/Book" render={()=><Bookings newBooking={true}/>}/>
         {/* Path used to show Bookings */}
         <Route path="/showBookings" render={()=><Bookings newBooking={false}/>}/>
+        <Route path="/checkWord" component={WordGuesser}/>
         </div>
       </Router> 
       <Footer />

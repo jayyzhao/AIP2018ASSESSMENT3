@@ -1,6 +1,7 @@
 require('dotenv').load();
 
 const express = require('express');
+const bodyParser = require("body-parser");
 const app = express();
 
 var sql = require("mssql");
@@ -17,10 +18,17 @@ var config = {
 
 };
 
+
 sql.connect(config, function (err) {
     
     if (err) console.log(err);
 });
+
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+
+app.use(bodyParser.json());
 
 app.get('/api/users', (req, res) => {
 
@@ -35,6 +43,26 @@ app.get('/api/users', (req, res) => {
          res.json(result.recordset);
          
      });
+
+});
+
+
+
+app.get('/week7/checkWord', (req, res) => {
+
+    // create Request object
+    var request = new sql.Request();
+
+    // console.log(request.body.myWord);
+
+    // query to the database and get the records
+    request.query('select * from week7', function (err, result) {
+        
+        if (err) console.log(err)
+        // send records as a response
+        res.json(result.recordset);
+        
+    });
 
 });
 
