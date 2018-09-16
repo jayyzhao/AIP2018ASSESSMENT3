@@ -58,22 +58,14 @@ class Navigation extends React.Component {
 
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav mr-auto">
-            
             <NavItem path="/" name="Home" />
-            <NavItem path="/Book" name="Book" />
-            <NavItem path="/showBookings" name="My Bookings"/>
-            
-            {/* <NavDropdown name="Profile">
-                <a className="dropdown-item" href="/">My Profile</a>
-                <div className="dropdown-divider"></div>
-                <a className="dropdown-item" href="/">Change Password</a>
-            </NavDropdown> */}
+            <NavItem path="/Book" name="Book" />            
             
           </ul>
-          {/* <form className="form-inline my-2 my-lg-0">
-            <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
-            <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-          </form> */}
+          <ul className="navbar-nav my-2 my-lg-0">
+              <NavItem path="/signup" name="Sign Up"/>
+              <NavItem path="/login" name="Login"/>
+          </ul>
         </div>
       </nav>
     )

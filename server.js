@@ -48,21 +48,15 @@ app.get('/api/users', (req, res) => {
 
 
 
-app.get('/week7/checkWord', (req, res) => {
+app.post('/users/login', (req, res) => {
 
-    // create Request object
-    var request = new sql.Request();
+    res.json("Hello");
 
-    // console.log(request.body.myWord);
+});
 
-    // query to the database and get the records
-    request.query('select * from week7', function (err, result) {
-        
-        if (err) console.log(err)
-        // send records as a response
-        res.json(result.recordset);
-        
-    });
+app.get('/users/login', (req, res) => {
+
+    res.json("Hello");
 
 });
 
