@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { addBackToTop } from 'vanilla-back-to-top'
 
 class Footer extends Component {
   render() {
@@ -6,8 +7,7 @@ class Footer extends Component {
       <div>
         <footer className="text-muted">
             <div className="container">
-                <p className="float-right">
-                <a href="/">Back to top</a>
+                <p className="float-right" onClick={addBackToTop({diameter: 60,backgroundColor: 'dimgrey',textColor: 'white'})}> 
                 </p>
                 <p>Book-A-Table</p>
                 <p> AIP 2018 Assessment 3</p>
