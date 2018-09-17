@@ -1,4 +1,5 @@
 require('dotenv').load();
+var jwt = require('jsonwebtoken');
 
 const express = require('express');
 const bodyParser = require("body-parser");
@@ -30,33 +31,70 @@ app.use(bodyParser.urlencoded({
 
 app.use(bodyParser.json());
 
-app.get('/api/users', (req, res) => {
-
-     // create Request object
-     var request = new sql.Request();
-       
-     // query to the database and get the records
-     request.query('select * from users', function (err, result) {
-         
-         if (err) console.log(err)
-         // send records as a response
-         res.json(result.recordset);
-         
-     });
-
-});
-
 
 
 app.post('/users/login', (req, res) => {
+    
+    var username = req.body.username;
+    var password = req.body.password;
 
-    res.json("Hello");
+    var request = new sql.Request();
+    var authenticated = 0;
+    
+    // query to the database and get the records
+    request.query("[dbo].[P_PRC_CheckPassword] '" + password + "', '" + username + "'", function (err, result) {
+        
+        if (err) console.log(err)
+        // send records as a response
+        if (result.recordset[0].RESULT == 'TRUE'){
+            authenticated = 1;
+            
+        }
+        console.log(result.recordset[0].RESULT);
+
+        if(authenticated == 1){
+            var token = jwt.sign({}, 'QWERTYASDF', {
+                expiresIn: 86400 // expires in 24 hours
+            });
+
+            res.status(200).send({ token: token });
+        }
+        else{
+            res.status(401).send({ error: "User Unauthroized!" });
+        }  
+        
+    });
+        
 
 });
 
+
 app.get('/users/login', (req, res) => {
 
-    res.json("Hello");
+    var request = new sql.Request();
+
+    var authenticated =0;
+
+    request.query("[dbo].[P_PRC_CheckPassword] 'test', 'test'", function (err, result) {
+        
+        if (err) console.log(err)
+        // send records as a response
+        if (result.recordset[0].RESULT == 'TRUE'){
+            authenticated = 1;
+
+            console.log(result.recordset);
+        }
+
+        if(authenticated === 1){
+            res.json(authenticated);
+        }
+        
+        res.json("BROKE");
+
+        
+        
+    });
+    
 
 });
 

@@ -1,6 +1,19 @@
 import React, { Component } from 'react';
+import Authentication from './Authentication';
 
 export default class Gallery extends Component {
+  
+  constructor(){
+    super();
+    this.Auth = new Authentication();
+  }
+
+  componentWillMount() {
+    if (!this.Auth.loggedIn()) {
+        this.props.history.replace('/login')
+    }
+  }
+
   render() {
     return (
       <div>
