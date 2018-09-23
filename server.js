@@ -57,7 +57,12 @@ app.post('/users/login', (req, res) => {
                 expiresIn: 86400 // expires in 24 hours
             });
 
-            res.status(200).send({ token: token });
+            request.query("[dbo].[P_RPT_User_Details] 'test'", function (err, result) {                
+
+                res.status(200).send({token: token, USERS_ID: result.recordset[0].USERS_ID,USERS_FIRST_NAME: result.recordset[0].USERS_FIRST_NAME, USERS_LAST_NAME: result.recordset[0].USERS_LAST_NAME, CONTACT_EMAIL: result.recordset[0].CONTACT_EMAIL});
+                // {"USERS_ID":"19","USERS_FIRST_NAME":"person","USERS_LAST_NAME":"testing","CONTACT_EMAIL":null,"CONTACT_MOBILE":null,"CONTACT_PREFERED_CONTACT":null}
+        
+            });
         }
         else{
             res.status(401).send({ error: "User Unauthroized!" });
@@ -81,20 +86,48 @@ app.get('/users/login', (req, res) => {
         // send records as a response
         if (result.recordset[0].RESULT == 'TRUE'){
             authenticated = 1;
-
-            console.log(result.recordset);
         }
 
-        if(authenticated === 1){
-            res.json(authenticated);
-        }
+        if(authenticated == 1){
+            var token = jwt.sign({}, 'QWERTYASDF', {
+                expiresIn: 86400 // expires in 24 hours
+            });
+
+            request.query("[dbo].[P_RPT_User_Details] 'test'", function (err, result) {                
+
+                res.status(200).send({token: token,USERS_ID: result.recordset[0].USERS_ID,USERS_FIRST_NAME: result.recordset[0].USERS_FIRST_NAME, USERS_LAST_NAME: result.recordset[0].USERS_LAST_NAME, CONTACT_EMAIL: result.recordset[0].CONTACT_EMAIL});
+                // {"USERS_ID":"19","USERS_FIRST_NAME":"person","USERS_LAST_NAME":"testing","CONTACT_EMAIL":null,"CONTACT_MOBILE":null,"CONTACT_PREFERED_CONTACT":null}
         
-        res.json("BROKE");
+            });
+        }
+        else{
+            res.status(401).send({ error: "User Unauthroized!" });
+        }  
 
         
         
     });
-    
+
+});
+
+
+app.get('/resturants/list', (req, res) => {
+
+    var request = new sql.Request();
+
+    var authenticated =0;
+
+    request.query("[dbo].[P_RPT_Restaurants]", function (err, result) {
+        
+        if (err) {
+            console.log(err)
+            res.status(401).send({ error: err});
+        }
+        else{
+            res.send(result);
+        }  
+        
+    });
 
 });
 
