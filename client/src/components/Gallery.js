@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import Modal from 'react-modal';
+import Validation from 'react-validation';
 import Authentication from './Authentication';
 
 export default class Gallery extends Component {
@@ -7,8 +9,33 @@ export default class Gallery extends Component {
     super();
     this.Auth = new Authentication();
     this.state = {
-      resturants: []
+      resturants: [],
+      modalIsOpen: false,
+      resturantName: ''
     }
+    this.openModal = this.openModal.bind(this);
+    this.closeModal = this.closeModal.bind(this);
+    this.handleEdit = this.handleEdit.bind(this); // Function where we submit data
+  }
+
+  openModal(member) {
+    console.log(member.RESTAURANT_NAME);
+    this.setState({
+        modalIsOpen: true,
+        resturantName: member.RESTAURANT_NAME,
+    });
+  }
+
+  closeModal() {
+    this.setState({
+        modalIsOpen: false
+    });
+  }
+
+  handleEdit(event) {
+    //Edit functionality
+    event.preventDefault()
+    console.log("EDIT");
   }
 
   componentWillMount() {
@@ -25,7 +52,6 @@ export default class Gallery extends Component {
           }
           return response.json();
       }).then(function(data) {
-      resturants: []
       self.setState({resturants: data.recordset});          ;
       }).catch(err => {
         console.log('caught it!',err);
@@ -48,7 +74,8 @@ export default class Gallery extends Component {
                       <p className="card-text">{member.RESTAURANT_NAME}</p>
                       <div className="d-flex justify-content-between align-items-center">
                         <div className="btn-group">
-                          <button type="button" className="btn btn-sm btn-outline-secondary">Book</button>
+                          <button onClick={() => this.openModal(member)} className="btn btn-sm btn-outline-secondary" type="button">Book Now!</button>
+                          {/* <button type="button" className="btn btn-sm btn-outline-secondary">Book Now!</button> */}
                         </div>
                         <small className="text-muted">{member.RESTAURANT_DESCRIPTION}</small>
                       </div>
@@ -56,6 +83,11 @@ export default class Gallery extends Component {
                   </div>
                 </div>
             )}
+            <Modal
+                isOpen={this.state.modalIsOpen}
+                onRequestClose={this.closeModal}>
+                <h1>{this.state.resturantName}</h1>
+            </Modal>
           </div>
         </div>
       </div>
