@@ -26,24 +26,3 @@ class App extends Component {
 }
 
 export default App;
-
-
-    //  <div className="container">
-    //   {/* Include Navigation Component */}
-    //   <Navigation />
-    //   {/* Include Banner Component */}
-    //   <Banner />
-    //   {/* Initialize a Router to generate Path and Route dependencies */}
-    //   <Router>
-    //     <div>
-    //     {/* Root Path - to show Gallery Component */}
-    //     <Route exact path="/" component={Gallery}/>
-    //     {/* Booking Path - for New Bookings */}
-    //     <Route path="/Book" render={()=><Bookings newBooking={true}/>}/>
-    //     {/* Path used to show Bookings */}
-    //     <Route path="/showBookings" render={()=><Bookings newBooking={false}/>}/>
-    //     <Route path="/checkWord" component={WordGuesser}/>
-    //     </div>
-    //   </Router> 
-    //   <Footer />
-    // </div>

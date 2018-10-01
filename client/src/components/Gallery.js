@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Modal from 'react-modal';
 import Validation from 'react-validation';
 import Authentication from './Authentication';
+import DateTimePicker from 'react-datetime-picker';
 
 export default class Gallery extends Component {
   
@@ -11,12 +12,15 @@ export default class Gallery extends Component {
     this.state = {
       resturants: [],
       modalIsOpen: false,
-      resturantName: ''
+      resturantName: '',
+      date: new Date()
     }
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
     this.handleEdit = this.handleEdit.bind(this); // Function where we submit data
   }
+
+  onChange = date => this.setState({ date })
 
   openModal(member) {
     console.log(member.RESTAURANT_NAME);
@@ -87,6 +91,16 @@ export default class Gallery extends Component {
                 isOpen={this.state.modalIsOpen}
                 onRequestClose={this.closeModal}>
                 <h1>{this.state.resturantName}</h1>
+                
+                <form>
+                  <label>Name: </label><input value="Name"/><br/>
+                  <label>Phone Number: </label><input value="Number"/><br/>
+                  <DateTimePicker
+                    onChange={this.onChange}
+                    value={this.state.date}
+                  />
+                  <button>Book Table</button>
+              </form>
             </Modal>
           </div>
         </div>

@@ -1,0 +1,11 @@
+.timeButton{
+	margin-left: 200px;
+}
+.timeButton:hover{
+    color:dimgrey;
+    cursor:pointer;
+}
+.card-img-top{
+    width:100%;
+    height:220px;
+}
