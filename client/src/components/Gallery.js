@@ -3,6 +3,56 @@ import Modal from 'react-modal';
 import Validation from 'react-validation';
 import Authentication from './Authentication';
 import DateTimePicker from 'react-datetime-picker';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+const customStyles = {
+  content : {
+    height             : '40%',
+    width              : '40%',
+    top                : '50%',
+    left               : '50%',
+    right              : 'auto',
+    bottom             : 'auto',
+    marginRight        : '-50%',
+    transform          : 'translate(-50%, -50%)'
+  }
+};
+
+const buttonStyles = {
+      color:'white',
+      width:'20%',
+      position:'absolute',
+      left:'230px',
+      bottom:'10px',
+      height:'50px',
+      backgroundColor:'steelblue'
+};
+
+const headStyles = {
+  color:'white',
+  textAlign:'center',
+  width:'100%',
+  position:'absolute',
+  top:'0',
+  right:'0',
+  left:'0',
+  height:'50px',
+  backgroundColor:'steelblue'
+};
+
+const textStyles = {
+  textAlign:'center',
+  textStyles:'bold',
+  fontSize:'20px',
+  color:'steelblue',
+  fontFamily:'Arial,Verdana,Sans-serif',
+  position:'absolute',
+  top:'100px'
+};
+
+const nameStyles = {
+  paddingLeft:'82px'
+};
 
 export default class Gallery extends Component {
   
@@ -79,7 +129,11 @@ export default class Gallery extends Component {
                       <div className="d-flex justify-content-between align-items-center">
                         <div className="btn-group">
                           <button onClick={() => this.openModal(member)} className="btn btn-sm btn-outline-secondary" type="button">Book Now!</button>
-                          {/* <button type="button" className="btn btn-sm btn-outline-secondary">Book Now!</button> */}
+                          {/* <button type="button" className="btn btn-sm btn-outline-secondary">Book Now!</button>
+                                          //<DateTimePicker
+                    onChange={this.onChange}
+                    value={this.state.date}
+                  /> */}
                         </div>
                         <small className="text-muted">{member.RESTAURANT_DESCRIPTION}</small>
                       </div>
@@ -87,19 +141,17 @@ export default class Gallery extends Component {
                   </div>
                 </div>
             )}
-            <Modal
+            <Modal style={customStyles}
                 isOpen={this.state.modalIsOpen}
                 onRequestClose={this.closeModal}>
-                <h1>{this.state.resturantName}</h1>
+                <h1 style={headStyles}>{this.state.resturantName}</h1>
                 
                 <form>
-                  <label>Name: </label><input value="Name"/><br/>
-                  <label>Phone Number: </label><input value="Number"/><br/>
-                  <DateTimePicker
-                    onChange={this.onChange}
-                    value={this.state.date}
-                  />
-                  <button>Book Table</button>
+                  <div style={textStyles}>
+                  <div style={nameStyles}><label>Name: </label><input value="Name" style={{color:'lightgrey'}}/><br/></div>
+                  <label>Phone Number: </label><input value="Number" style={{color:'lightgrey'}}/><br/>
+                  </div>
+                  <button className="btn btn-sm" style={buttonStyles}>Book Table</button>
               </form>
             </Modal>
           </div>
