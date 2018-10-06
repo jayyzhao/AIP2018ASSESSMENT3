@@ -5,6 +5,8 @@ import "./css/Navigation.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
+import { Route, Redirect } from 'react-router-dom';
+
 import {
   Collapse,
   NavbarToggler,
@@ -32,14 +34,19 @@ const NavItem = props => {
 
 class Navigation extends React.Component {
 
-  
-
   constructor(props){
     super();
     this.state = {
       user: [],
     }
     this.Auth = new Authentication();
+    this.logout = this.logout.bind(this)
+  }
+
+  logout(e) {
+    this.setState({user: []});
+    localStorage.clear();
+    window.location.assign('/login');
   }
 
 
@@ -83,7 +90,9 @@ class Navigation extends React.Component {
                     </DropdownItem>
                     <DropdownItem divider />
                     <DropdownItem>
+                      <div onClick={this.logout}>
                       Logout
+                      </div>
                     </DropdownItem>
                   </DropdownMenu>
                 </UncontrolledDropdown>
