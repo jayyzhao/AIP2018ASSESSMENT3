@@ -61,6 +61,7 @@ app.post('/users/login', (req, res) => {
                     USERS_FIRST_NAME: result.recordset[0].USERS_FIRST_NAME,
                     USERS_LAST_NAME: result.recordset[0].USERS_LAST_NAME, 
                     CONTACT_EMAIL: result.recordset[0].CONTACT_EMAIL,
+					IS_OWNER: result.recordset[0].IS_OWNER,
                 }, 'QWERTYASDF', {
                     expiresIn: 86400,
                 });
