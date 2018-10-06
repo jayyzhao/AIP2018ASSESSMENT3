@@ -4,7 +4,9 @@ import { BrowserRouter as Router } from "react-router-dom";
 import App from "./App";
 import registerServiceWorker from "./registerServiceWorker";
 import "./index.css";
+import "./components/css/react-datetime.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 
 ReactDOM.render(

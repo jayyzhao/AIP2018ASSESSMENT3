@@ -36,9 +36,9 @@
 	width: 14px;
 	height: 14px;
 	border-radius: 7px;
-	background-color: #fff;
+	/* background-color: #fff; */
 	opacity: .5;
 }
 .slidernavbar .slidernavbaritem.curritem{
-	background-color: #010101;
+	/* background-color: #010101; */
 }

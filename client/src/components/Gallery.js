@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 import Modal from 'react-modal';
-import Validation from 'react-validation';
 import Authentication from './Authentication';
-import DateTimePicker from 'react-datetime-picker';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import decode from 'jwt-decode';
+import Datetime from 'react-datetime';
+
 
 const customStyles = {
   content : {
-    height             : '40%',
-    width              : '40%',
+    height             : '80%',
+    width              : '80%',
     top                : '50%',
     left               : '50%',
     right              : 'auto',
@@ -60,10 +61,21 @@ export default class Gallery extends Component {
     super();
     this.Auth = new Authentication();
     this.state = {
+      user : [],
+      USERS_FIRST_NAME: '',
+      USERS_LAST_NAME: '',
+      CONTACT_EMAIL: '',
       resturants: [],
       modalIsOpen: false,
       resturantName: '',
-      date: new Date()
+      date: new Date(),
+      // formErrors: {firstName: '', password: ''},
+      // password: '',
+      // passwordValid: false,
+      // firstNameValid: false,
+      // formValid: false,
+      // valuesChanged: false,
+
     }
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
@@ -97,6 +109,12 @@ export default class Gallery extends Component {
         this.props.history.replace('/login')
     }
     else{
+      this.setState({
+        user: decode(localStorage.getItem('id_token')),
+        USERS_FIRST_NAME: decode(localStorage.getItem('id_token')).USERS_FIRST_NAME,
+        USERS_LAST_NAME: decode(localStorage.getItem('id_token')).USERS_LAST_NAME,
+        CONTACTT_EMAIL: decode(localStorage.getItem('id_token')).CONTACTT_EMAIL
+      });
       let self = this;
       fetch('/resturants/list', {
           method: 'GET'
@@ -114,7 +132,53 @@ export default class Gallery extends Component {
     }
   }
 
+  handleUserInput (e) {
+    const name = e.target.name;
+    const value = e.target.value;
+    this.setState({[name]: value});
+      // () => { this.validateField(name, value) });
+    this.setState({valuesChanged: true});
+  }
+
+  // validateField(fieldName, value) {
+  //   let fieldValidationErrors = this.state.formErrors;
+  //   let firstNameValid = this.state.firstNameValid;
+  //   let passwordValid = this.state.passwordValid;
+  //   switch(fieldName) {
+  //     // case 'email':
+  //     //   emailValid = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
+  //     //   fieldValidationErrors.email = emailValid ? '' : ' is invalid';
+  //     //   break;
+  //     case 'password':
+  //       passwordValid = value.length >= 6;
+  //       fieldValidationErrors.password = passwordValid ? '' : 'Password is too short';
+  //       passwordValid ? this.setState({valuesChanged: false}) :  null;
+  //       break;
+  //     case 'firstName':
+  //       firstNameValid = value.length >=1;
+  //       fieldValidationErrors.firstName = firstNameValid ? '' : 'Please Enter your First name';
+  //     case 'lastName':
+  //     default:
+  //       break;
+  //   }
+  //   this.setState({formErrors: fieldValidationErrors,
+  //                   firstNameValid: firstNameValid,
+  //                   passwordValid: passwordValid
+  //                 }, this.validateForm);
+  // }
+  
+  // validateForm() {
+  //   this.setState({formValid: this.state.emailValid && this.state.passwordValid});
+  // }
+
+  
+
   render() {
+    const loggedIn = localStorage.getItem('id_token');
+    const decoded = decode(localStorage.getItem('id_token'));
+    
+    // var passwordValid = this.state.passwordValid == false && this.state.valuesChanged == true ?  <div className="alert alert-danger">{this.state.formErrors.password}</div> : null ;
+    
     return (      
       <div>
         {/* Begining of the Albumn Gallery */}
@@ -147,19 +211,44 @@ export default class Gallery extends Component {
                 <h1 style={headStyles}>{this.state.resturantName}</h1>
                 <br/><br/>
                 <form className="demoForm">
+                  <h2>Book a Table!</h2>
+                  {/* {passwordValid} */}                  
                   <div className="form-group">
-                    <label htmlFor="email">Email address</label>
-                    <input type="email" className="form-control"
-                      name="email" />
+                  <div className="form-group">
+                    <label>Please Pick Date and Time</label>
+                    <Datetime />
+                  </div>
+                    <label htmlFor="email">First Name</label>
+                    <input 
+                      type="text" 
+                      className="form-control"
+                      name="USERS_FIRST_NAME" 
+                      value={this.state.USERS_FIRST_NAME} 
+                      onChange={(event) => this.handleUserInput(event)}
+                    />
                   </div>
                   <div className="form-group">
-                    <label htmlFor="password">Password</label>
-                    <input type="password" className="form-control"
-                      name="password" />
+                    <label htmlFor="email">Last Name</label>
+                    <input 
+                      type="text" 
+                      className="form-control"
+                      name="USERS_LAST_NAME" 
+                      value={this.state.USERS_LAST_NAME} 
+                      onChange={(event) => this.handleUserInput(event)}
+                    />
                   </div>
-                  <button type="submit" className="btn btn-primary">
-                      Sign up
-                  </button>
+                  <div className="form-group">
+                    <label htmlFor="email">Email</label>
+                    <input 
+                      type="text" 
+                      className="form-control"
+                      name="CONTACT_EMAIL" 
+                      value={this.state.CONTACT_EMAIL} 
+                      onChange={(event) => this.handleUserInput(event)}
+                    />
+                  </div>
+                  <button type="submit" className="btn btn-primary" 
+                    disabled={!this.state.formValid}>Book!</button>
                 </form>
             </Modal>
           </div>
