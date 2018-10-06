@@ -150,6 +150,28 @@ app.get('/resturants/list', (req, res) => {
 
 });
 
+app.get('/MyResturants/list', (req, res) => {
+
+    var request = new sql.Request();
+
+    var authenticated =0;
+
+	
+	
+    request.query("[dbo].[P_RPT_Restaurant_By_Owner] '" + 19 +"'" , function (err, result) {
+        
+        if (err) {
+            console.log(err)
+            res.status(401).send({ error: err});
+        }
+        else{
+            res.send(result);
+        }  
+        
+    });
+
+});
+
 const port = 3001;
 
 app.listen(port, () => console.log(`Server started on port ${port}`));

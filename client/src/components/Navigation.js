@@ -73,7 +73,8 @@ class Navigation extends React.Component {
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav mr-auto">
               <NavItem path="/" name="Home" />
-              <NavItem path="/Book" name="Book" />            
+              <NavItem path="/Book" name="Book" />  
+              <NavItem path="/MyRestaurants" name="My Restaurants" />			  
             </ul>          
               <ul className="navbar-nav my-1 my-lg-0" style={{color:'white',fontStyle:'italic'}}>
                 <span className="userInfo">Welcome {decoded.USERS_FIRST_NAME} {decoded.USERS_LAST_NAME}</span> 
