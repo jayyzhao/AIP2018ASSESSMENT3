@@ -67,10 +67,11 @@ export default class AuthService {
         if (this.loggedIn()) {
             headers['Authorization'] = 'Bearer ' + this.getToken()
         }
-
         return fetch(url, {
             headers,
-            ...options
+            method: 'POST',
+            body: JSON.stringify({options})
+            
         })
             .then(this._checkStatus)
             .then(response => response.json())

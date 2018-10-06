@@ -6,6 +6,7 @@ import decode from 'jwt-decode';
 import Datetime from 'react-datetime';
 
 
+
 const customStyles = {
   content : {
     height             : '80%',
@@ -68,7 +69,10 @@ export default class Gallery extends Component {
       resturants: [],
       modalIsOpen: false,
       resturantName: '',
+      resturantID: '',
+      pax: '',
       date: new Date(),
+      booked: false,
       // formErrors: {firstName: '', password: ''},
       // password: '',
       // passwordValid: false,
@@ -80,15 +84,18 @@ export default class Gallery extends Component {
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
     this.handleEdit = this.handleEdit.bind(this); // Function where we submit data
+    this.handleDateTimeChange = this.handleDateTimeChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   onChange = date => this.setState({ date })
 
   openModal(member) {
-    console.log(member.RESTAURANT_NAME);
+    console.log(member);
     this.setState({
         modalIsOpen: true,
         resturantName: member.RESTAURANT_NAME,
+        resturantID: member.RESTAURANT_ID,
     });
   }
 
@@ -102,6 +109,12 @@ export default class Gallery extends Component {
     //Edit functionality
     event.preventDefault()
     console.log("EDIT");
+  }
+
+  handleDateTimeChange(event) {
+    this.setState({
+      date: event,
+    });
   }
 
   componentWillMount() {
@@ -140,6 +153,24 @@ export default class Gallery extends Component {
     this.setState({valuesChanged: true});
   }
 
+  handleSubmit(e){
+    this.Auth.fetch('resturants/book/' + this.state.resturantID, this.state)
+      .then(res =>{
+        if(res.rowsAffected == 1){
+          this.setState({
+            modalIsOpen: false,
+            booked: true
+          });
+        }
+      })
+      .catch(err =>{
+          alert(err);
+      })
+
+    e.preventDefault();
+
+  }
+
   // validateField(fieldName, value) {
   //   let fieldValidationErrors = this.state.formErrors;
   //   let firstNameValid = this.state.firstNameValid;
@@ -176,11 +207,33 @@ export default class Gallery extends Component {
   render() {
     const loggedIn = localStorage.getItem('id_token');
     const decoded = decode(localStorage.getItem('id_token'));
-    
+
+    var getValidTimes = function() {
+      return {
+        hours: {
+          min: 9,
+          max: 22,
+          step: 1,
+        },
+        minutes: {
+          min: 0,
+          max: 59,
+          step: 15,
+        },
+      };
+    }
+
+    var valid = function( current ){
+      var yesterday  = new Date();
+      yesterday.setDate(yesterday.getDate()-1);
+      return current.isAfter(yesterday);
+    };
     // var passwordValid = this.state.passwordValid == false && this.state.valuesChanged == true ?  <div className="alert alert-danger">{this.state.formErrors.password}</div> : null ;
+    var bookedAlert = this.state.booked ?  <div className="alert alert-success">You have booked your Resturant!</div> : null ;
     
     return (      
       <div>
+        {bookedAlert}
         {/* Begining of the Albumn Gallery */}
         <div className="album py-5 bg-light">
           <div className="row">
@@ -210,13 +263,22 @@ export default class Gallery extends Component {
                 onRequestClose={this.closeModal}>
                 <h1 style={headStyles}>{this.state.resturantName}</h1>
                 <br/><br/>
-                <form className="demoForm">
+                <form className="bookTable" onSubmit={this.handleSubmit}>
                   <h2>Book a Table!</h2>
                   {/* {passwordValid} */}                  
                   <div className="form-group">
                   <div className="form-group">
                     <label>Please Pick Date and Time</label>
-                    <Datetime />
+                    <Datetime 
+                      closeOnSelect = "true"
+                      viewMode="days"
+                      closeOnTab="true"
+                      timeConstraints={getValidTimes()}
+                      value= { this.state.date }
+                      isValidDate={ valid }
+                      onChange={ this.handleDateTimeChange }
+                      dateFormat="DD/MM/YYYY "
+                    />
                   </div>
                     <label htmlFor="email">First Name</label>
                     <input 
@@ -247,8 +309,19 @@ export default class Gallery extends Component {
                       onChange={(event) => this.handleUserInput(event)}
                     />
                   </div>
+                  <div className="form-group">
+                    <label htmlFor="email">Number of People</label>
+                    <input 
+                      type="text" 
+                      className="form-control"
+                      name="pax" 
+                      value={this.state.pax} 
+                      onChange={(event) => this.handleUserInput(event)}
+                    />
+                  </div>
                   <button type="submit" className="btn btn-primary" 
-                    disabled={!this.state.formValid}>Book!</button>
+                    // disabled={!this.state.formValid}
+                    >Book!</button>
                 </form>
             </Modal>
           </div>

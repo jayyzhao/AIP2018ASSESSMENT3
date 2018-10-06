@@ -81,55 +81,73 @@ app.post('/users/login', (req, res) => {
 });
 
 
-app.get('/users/login', (req, res) => {
+// app.get('/users/login', (req, res) => {
 
-    var request = new sql.Request();
+//     var request = new sql.Request();
 
-    var authenticated =0;
+//     var authenticated =0;
 
-    request.query("[dbo].[P_PRC_CheckPassword] 'test', 'test'", function (err, result) {
+//     request.query("[dbo].[P_PRC_CheckPassword] 'test', 'test'", function (err, result) {
         
-        if (err) console.log(err)
-        // send records as a response
-        if (result.recordset[0].RESULT == 'TRUE'){
-            authenticated = 1;
-        }
+//         if (err) console.log(err)
+//         // send records as a response
+//         if (result.recordset[0].RESULT == 'TRUE'){
+//             authenticated = 1;
+//         }
 
-        if(authenticated == 1){
+//         if(authenticated == 1){
             
 
-            request.query("[dbo].[P_RPT_User_Details] 'test'", function (err, result) {     
+//             request.query("[dbo].[P_RPT_User_Details] 'test'", function (err, result) {     
                 
-                var token = jwt.sign({
-                    USERS_ID: result.recordset[0].USERS_ID,
-                    USERS_FIRST_NAME: result.recordset[0].USERS_FIRST_NAME,
-                    USERS_LAST_NAME: result.recordset[0].USERS_LAST_NAME, 
-                    CONTACT_EMAIL: result.recordset[0].CONTACT_EMAIL,
-                }, 'QWERTYASDF', {
-                    expiresIn: 86400 // expires in 24 hours
-                });
+//                 var token = jwt.sign({
+//                     USERS_ID: result.recordset[0].USERS_ID,
+//                     USERS_FIRST_NAME: result.recordset[0].USERS_FIRST_NAME,
+//                     USERS_LAST_NAME: result.recordset[0].USERS_LAST_NAME, 
+//                     CONTACT_EMAIL: result.recordset[0].CONTACT_EMAIL,
+//                 }, 'QWERTYASDF', {
+//                     expiresIn: 86400 // expires in 24 hours
+//                 });
 
 
 
-                res.status(200).send({token: token,USERS_ID: result.recordset[0].USERS_ID,USERS_FIRST_NAME: result.recordset[0].USERS_FIRST_NAME, USERS_LAST_NAME: result.recordset[0].USERS_LAST_NAME, CONTACT_EMAIL: result.recordset[0].CONTACT_EMAIL});
-                // {"USERS_ID":"19","USERS_FIRST_NAME":"person","USERS_LAST_NAME":"testing","CONTACT_EMAIL":null,"CONTACT_MOBILE":null,"CONTACT_PREFERED_CONTACT":null}
+//                 res.status(200).send({token: token,USERS_ID: result.recordset[0].USERS_ID,USERS_FIRST_NAME: result.recordset[0].USERS_FIRST_NAME, USERS_LAST_NAME: result.recordset[0].USERS_LAST_NAME, CONTACT_EMAIL: result.recordset[0].CONTACT_EMAIL});
+//                 // {"USERS_ID":"19","USERS_FIRST_NAME":"person","USERS_LAST_NAME":"testing","CONTACT_EMAIL":null,"CONTACT_MOBILE":null,"CONTACT_PREFERED_CONTACT":null}
         
-            });
-        }
-        else{
-            res.status(401).send({ error: "User Unauthroized!" });
-        }  
+//             });
+//         }
+//         else{
+//             res.status(401).send({ error: "User Unauthroized!" });
+//         }  
 
         
         
-    });
+//     });
 
-});
+// });
 
 app.get('/user/token/:token', function (req, res) {
     res.send(req.params)
 })
 
+app.post('/resturants/book/:id', function (req, res) {
+    // res.send(req.params)
+    console.log(req.body.options.pax)
+    var request = new sql.Request();
+    console.log("[dbo].[P_IMP_BOOKING] '" + req.body.options.resturantID + "', '" + req.body.options.user.USERS_ID + "', '4', '" + req.body.options.pax + "', '" + req.body.options.date + "'")
+    request.query("[dbo].[P_IMP_BOOKING] '" + req.body.options.resturantID + "', '" + req.body.options.user.USERS_ID + "', '4', '" + req.body.options.pax + "', '" + req.body.options.date + "'", function (err, result) {
+        if (err) {
+            console.log(err)
+            res.status(401).send({ error: err});
+        }
+        else{
+            res.send(result);
+        }  
+        
+    });
+
+    
+})
 
 app.get('/resturants/list', (req, res) => {
 
