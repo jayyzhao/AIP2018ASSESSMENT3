@@ -77,7 +77,7 @@ class Navigation extends React.Component {
           <ul className="navbar-nav mr-auto">
             <NavItem path="/" name="Home" />
             <NavItem path="/Book" name="Book" />  
-			<NavItem path="/MyBookings" name="My Restaurants" />  
+			<NavItem path="/MyBookings" name="My Bookings" />  
 			<NavItem path="/MyRestaurants" name="My Restaurants" />  
           </ul>
           {this.state.user.USERS_ID > 0 ? (
