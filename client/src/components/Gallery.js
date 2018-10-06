@@ -145,14 +145,22 @@ export default class Gallery extends Component {
                 isOpen={this.state.modalIsOpen}
                 onRequestClose={this.closeModal}>
                 <h1 style={headStyles}>{this.state.resturantName}</h1>
-                
-                <form>
-                  <div style={textStyles}>
-                  <div style={nameStyles}><label>Name: </label><input value="Name" style={{color:'lightgrey'}}/><br/></div>
-                  <label>Phone Number: </label><input value="Number" style={{color:'lightgrey'}}/><br/>
+                <br/><br/>
+                <form className="demoForm">
+                  <div className="form-group">
+                    <label htmlFor="email">Email address</label>
+                    <input type="email" className="form-control"
+                      name="email" />
                   </div>
-                  <button className="btn btn-sm" style={buttonStyles}>Book Table</button>
-              </form>
+                  <div className="form-group">
+                    <label htmlFor="password">Password</label>
+                    <input type="password" className="form-control"
+                      name="password" />
+                  </div>
+                  <button type="submit" className="btn btn-primary">
+                      Sign up
+                  </button>
+                </form>
             </Modal>
           </div>
         </div>
