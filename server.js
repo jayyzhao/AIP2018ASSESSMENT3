@@ -315,7 +315,7 @@ app.post('/MyResturants/list', (req, res) => {
 	console.log(req.body);
 	
     request.query("[dbo].[P_RPT_Restaurant_By_Owner] " + user_id , function (err, result) {
-        
+
         if (err) {
             console.log(err)
             res.status(401).send({ error: err});
@@ -368,18 +368,17 @@ app.post('/MyResturants/future_bookings', (req, res) => {
     var authenticated =0;
 
 	
-	console.log('Log after future_bookings:');
+	console.log('Log after future_bookings::');
 	//console.log(req);
 	console.log(req.body);
 	
-    request.query("[dbo].[P_RPT_BOOKINGS_FOR_FOR_MY_RESTAURANTS] '" + user_id +"'", function (err, result) {
-        
+    request.query("[dbo].[P_RPT_BOOKINGS_FOR_FOR_MY_RESTAURANTS] " + user_id, function (err, result) {
         if (err) {
             console.log(err)
             res.status(401).send({ error: err});
         }
         else{
-            res.send(result);
+            res.send(result.recordset);
         }  
         
     })

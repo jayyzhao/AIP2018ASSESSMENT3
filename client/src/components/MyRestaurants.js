@@ -5,6 +5,9 @@ import Authentication from './Authentication';
 import DateTimePicker from 'react-datetime-picker';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import decode from 'jwt-decode';
+import Datetime from 'react-datetime';
+
+
 
 const customStyles = {
   content : {
@@ -56,6 +59,7 @@ const nameStyles = {
 };
 
 export default class MyRestaurants extends Component {
+	
   
   constructor(props){
     super();
@@ -134,10 +138,18 @@ export default class MyRestaurants extends Component {
 
     }
   }
+  
+
 
   render() {
+	  
+
+	 
     return (      
+	
       <div>
+	  ''
+	  <div style={nameStyles}><label>Reporting Date YYYY-MM-DD: </label><input value="" style={{color:'lightgrey'}}/><br/></div>
         {/* Begining of the Albumn MyRestaurants */}
         <div className="album py-5 bg-light">
           <div className="row">
@@ -149,14 +161,15 @@ export default class MyRestaurants extends Component {
                       <p className="card-text">{member.RESTAURANT_NAME}</p>
                       <div className="d-flex justify-content-between align-items-center">
                         <div className="btn-group">
-                          <button onClick={() => this.openModal(member)} className="btn btn-sm btn-outline-secondary" type="button">Book Now!</button>
+						  <button onClick={() => this.openModal(member)} className="btn btn-sm btn-outline-secondary" type="button">Edit Menu</button>
+						  <button onClick={() => this.openModal(member)} className="btn btn-sm btn-outline-secondary" type="button">Edit Menu</button>
                           {/* <button type="button" className="btn btn-sm btn-outline-secondary">Book Now!</button>
                                           //<DateTimePicker
                     onChange={this.onChange}
                     value={this.state.date}
                   /> */}
                         </div>
-                        <small className="text-muted">{member.RESTAURANT_DESCRIPTION}</small>
+                        <small className="text-muted"></small>
                       </div>
                     </div>
                   </div>
@@ -177,6 +190,7 @@ export default class MyRestaurants extends Component {
             </Modal>
           </div>
         </div>
+		
       </div>
     );
   }

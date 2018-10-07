@@ -74,7 +74,8 @@ class Navigation extends React.Component {
             <ul className="navbar-nav mr-auto">
               <NavItem path="/" name="Home" />
               <NavItem path="/Book" name="My Bookings" />  
-              <NavItem path="/MyRestaurants" name="My Restaurants" />			  
+              <NavItem path="/MyRestaurants" name="My Restaurants" />		
+			  <NavItem path="/RestaurantBookings" name="My Restaurants Bookings" />			  
             </ul>          
               <ul className="navbar-nav my-1 my-lg-0" style={{color:'white',fontStyle:'italic'}}>
                 <span className="userInfo">Welcome {decoded.USERS_FIRST_NAME} {decoded.USERS_LAST_NAME}</span> 
