@@ -253,7 +253,7 @@ app.post('/MyResturants/list', (req, res) => {
 app.post('/MyResturants/bookings_by_day', (req, res) => {
 
 
-    var user_id = req.body.userid;
+    var user_id = req.body.UserID;
 
     var request = new sql.Request();
 
@@ -264,7 +264,36 @@ app.post('/MyResturants/bookings_by_day', (req, res) => {
 	//console.log(req);
 	console.log(req.body);
 	
-    request.query("[dbo].[P_RPT_BOOKINGS_FOR_RESTAURANT_BY_DATE] " + RESTAURANT_ID + ", " + REPORTING_DATE, function (err, result) {
+    request.query("[dbo].[P_RPT_BOOKINGS_FOR_RESTAURANT_BY_DATE] " + user_id, function (err, result) {
+        
+        if (err) {
+            console.log(err)
+            res.status(401).send({ error: err});
+        }
+        else{
+            res.send(result);
+        }  
+        
+    })
+	
+
+});
+
+app.post('/MyResturants/future_bookings', (req, res) => {
+
+
+    var user_id = req.body.UserID;
+
+    var request = new sql.Request();
+
+    var authenticated =0;
+
+	
+	console.log('Log after future_bookings:');
+	//console.log(req);
+	console.log(req.body);
+	
+    request.query("[dbo].[P_RPT_BOOKINGS_FOR_FOR_MY_RESTAURANTS] '" + user_id +"'", function (err, result) {
         
         if (err) {
             console.log(err)
