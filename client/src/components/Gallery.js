@@ -121,9 +121,11 @@ export default class Gallery extends Component {
 
   componentWillMount() {
     if (!this.Auth.loggedIn()) {
-        this.props.history.replace('/login')
+      console.log("I FOUND YUOU!")
+      window.location.assign('/login');
     }
     else{
+      
       this.setState({
         user: decode(localStorage.getItem('id_token')),
         USERS_FIRST_NAME: decode(localStorage.getItem('id_token')).USERS_FIRST_NAME,
