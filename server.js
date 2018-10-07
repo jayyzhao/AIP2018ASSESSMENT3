@@ -54,7 +54,7 @@ app.post('/users/login', (req, res) => {
 
         if(authenticated == 1){
 
-            request.query("[dbo].[P_RPT_User_Details] 'test'", function (err, result) {
+            request.query("[dbo].[P_RPT_User_Details] '" + username +"'" , function (err, result) {
                 
                 var token = jwt.sign({
                     USERS_ID: result.recordset[0].USERS_ID,
@@ -66,7 +66,7 @@ app.post('/users/login', (req, res) => {
                     expiresIn: 86400,
                 });
                 // console.log(result.recordset[0])
-                res.status(200).send({token: token, USERS_ID: result.recordset[0].USERS_ID,USERS_FIRST_NAME: result.recordset[0].USERS_FIRST_NAME, USERS_LAST_NAME: result.recordset[0].USERS_LAST_NAME, CONTACT_EMAIL: result.recordset[0].CONTACT_EMAIL});
+                res.status(200).send({token: token, USERS_ID: result.recordset[0].USERS_ID,USERS_FIRST_NAME: result.recordset[0].USERS_FIRST_NAME, USERS_LAST_NAME: result.recordset[0].USERS_LAST_NAME, CONTACT_EMAIL: result.recordset[0].CONTACT_EMAIL, IS_OWNER: result.recordset[0].IS_OWNER});
                 // {"USERS_ID":"19","USERS_FIRST_NAME":"person","USERS_LAST_NAME":"testing","CONTACT_EMAIL":null,"CONTACT_MOBILE":null,"CONTACT_PREFERED_CONTACT":null}
         
             });
