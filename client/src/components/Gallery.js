@@ -66,6 +66,7 @@ export default class Gallery extends Component {
       USERS_FIRST_NAME: '',
       USERS_LAST_NAME: '',
       CONTACT_EMAIL: '',
+      USERS_ID: '',
       resturants: [],
       modalIsOpen: false,
       resturantName: '',
@@ -127,7 +128,8 @@ export default class Gallery extends Component {
         user: decode(localStorage.getItem('id_token')),
         USERS_FIRST_NAME: decode(localStorage.getItem('id_token')).USERS_FIRST_NAME,
         USERS_LAST_NAME: decode(localStorage.getItem('id_token')).USERS_LAST_NAME,
-        CONTACT_EMAIL: decode(localStorage.getItem('id_token')).CONTACT_EMAIL
+        CONTACT_EMAIL: decode(localStorage.getItem('id_token')).CONTACT_EMAIL,
+        USERS_ID: decode(localStorage.getItem('id_token')).USERS_ID
       });
       let self = this;
       fetch('/resturants/list', {

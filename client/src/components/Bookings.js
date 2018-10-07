@@ -34,6 +34,7 @@ class Bookings extends Component {
             body: JSON.stringify({UserID: decode(localStorage.getItem('id_token')).USERS_ID})
         }).then(res =>{
             console.log(res);
+            this.setState({data : res})
           })
         .catch(err =>{
               alert(err);
@@ -91,19 +92,20 @@ class Bookings extends Component {
                         columns: [
                             {
                             Header: "Resturant",
-                            accessor: "firstName"
+                            accessor: "RESTAURANT_NAME"
                             },
                             {
                             Header: "PAX",
-                            accessor: "pax"
+                            accessor: "BOOKING_COUNT_PEOPLE"
                             },
                             {
                             Header: "Booking Date & Time",
-                            accessor: "datetime"
+                            accessor: "BOOKING_DATE_AND_TIME"
                             },
                             {
                             Header: "Booking Status",
-                            accessor: "status"
+                            accessor: "BOOKING_IS_ACTIVE",
+                            Cell: "hello"
                             },
                             {
                             Header: "Action",
