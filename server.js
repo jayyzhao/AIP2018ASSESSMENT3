@@ -250,6 +250,35 @@ app.post('/MyResturants/list', (req, res) => {
 
 });
 
+app.post('/MyResturants/bookings_by_day', (req, res) => {
+
+
+    var user_id = req.body.userid;
+
+    var request = new sql.Request();
+
+    var authenticated =0;
+
+	
+	console.log('Log after:');
+	//console.log(req);
+	console.log(req.body);
+	
+    request.query("[dbo].[P_RPT_BOOKINGS_FOR_RESTAURANT_BY_DATE] " + RESTAURANT_ID + ", " + REPORTING_DATE, function (err, result) {
+        
+        if (err) {
+            console.log(err)
+            res.status(401).send({ error: err});
+        }
+        else{
+            res.send(result);
+        }  
+        
+    })
+	
+
+});
+
 const port = 3001;
 
 app.listen(port, () => console.log(`Server started on port ${port}`));
