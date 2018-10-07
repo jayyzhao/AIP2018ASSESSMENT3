@@ -218,6 +218,46 @@ app.post('/user/bookings', (req, res) => {
 
 });
 
+app.post('/user/bookings/cancel', (req, res) => {
+
+    token = req.headers.authorization.replace("Bearer ","")
+    console.log(req.body)
+    console.log("P_IMP_Cancel_Booking " + req.body.BOOKING_ID)
+
+    var request = new sql.Request();
+
+    request.query("[dbo].[P_IMP_Cancel_Booking] " + req.body.BOOKING_ID , function (err, result) {
+        
+        if (err) {
+            console.log(err)
+            res.status(401).send({ error: err});
+        }
+        else{
+            if(result.rowsAffected == 1){
+                request.query("[dbo].[P_RPT_BOOKINGS_FOR_CONTACT] '" + req.body.CONTACT_ID +"'", function (err, result) {
+                    
+                    if (err) {
+                        console.log(err)
+                        res.status(401).send({ error: err});
+                    }
+                    else{
+                        res.send(result.recordset);
+                    }  
+                    
+                });          
+            }
+            else{
+                res.status(500).send({ error: result});
+            }
+
+        }  
+        
+    });
+
+    
+
+});
+
 
 
 

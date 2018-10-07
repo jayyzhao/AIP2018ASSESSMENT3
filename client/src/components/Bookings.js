@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import ReactTable from "react-table";
 import decode from 'jwt-decode';
 import Authentication from './Authentication';
-
+import Moment from 'react-moment'
+import 'moment-timezone';
 
 class Bookings extends Component {
     constructor() {
@@ -14,7 +15,13 @@ class Bookings extends Component {
             USERS_FIRST_NAME: '',
             USERS_LAST_NAME: '',
             CONTACT_EMAIL: '',
+            modalIsOpen: false,
+            bookingCanceled: false,
+            bookingCanceledText: ''
         };
+        this.openModal = this.openModal.bind(this);
+        this.closeModal = this.closeModal.bind(this);
+        this.cancelBooking = this.cancelBooking.bind(this);
       }
 
     componentWillMount() {
@@ -43,11 +50,42 @@ class Bookings extends Component {
     }
     }
 
+        openModal(booking) {
+
+        }
+
+        cancelBooking(booking) {
+            this.Auth.fetch('/user/bookings/cancel', {
+                method: 'POST',
+                body: JSON.stringify(booking)
+            }).then(res =>{
+                console.log(res);
+                this.setState({
+                    data : res,
+                    bookingCanceled: true,
+                    bookingCanceledText: 'Your Booking has been Cancelled!'
+                })
+              })
+            .catch(err =>{
+                  alert(err);
+            })
+        }
+
+
+        closeModal() {
+            this.setState({
+                modalIsOpen: false
+            });
+        }
+
     render() {
     const { data } = this.state;
     // Declare the property value that gets passed through
     const newBooking = this.props.newBooking;
     // Check if this is for a new Booking or not
+
+    var cancelAlert = this.state.bookingCanceled ?  <div className="alert alert-success">{this.state.bookingCanceledText}</div> : null ;
+
     if(newBooking){
         return (
             <div>
@@ -83,6 +121,8 @@ class Bookings extends Component {
     else{
         return(
             <div>
+                <br/>
+                {cancelAlert}
                 <h1>Show My Bookings</h1>
                 <ReactTable
                     data={data}
@@ -96,20 +136,23 @@ class Bookings extends Component {
                             },
                             {
                             Header: "PAX",
-                            accessor: "BOOKING_COUNT_PEOPLE"
+                            accessor: "BOOKING_COUNT_PEOPLE",
+                            width: 50
                             },
                             {
                             Header: "Booking Date & Time",
-                            accessor: "BOOKING_DATE_AND_TIME"
+                            accessor: "BOOKING_DATE_AND_TIME",
+                            Cell: props => props  ? <Moment format="ddd DD/MM/YYY HH:MM">{props.original.BOOKING_DATE_AND_TIME}</Moment> : "Cancelled"
                             },
                             {
                             Header: "Booking Status",
                             accessor: "BOOKING_IS_ACTIVE",
-                            Cell: props => props.original.BOOKING_IS_ACTIVE  ? "Active" : "Cancelled"
+                            Cell: props => props.original.BOOKING_IS_ACTIVE  ? "Active" : "Cancelled",
+                            width: 100
                             },
                             {
                             Header: "Action",
-                            Cell: props => props.original.BOOKING_IS_ACTIVE  ? "Modify or Cancel Booking" : "No Action"
+                            Cell: props => props.original.BOOKING_IS_ACTIVE  ? <div><button className="btn btn-sm btn-info" type="button" onClick={() => this.openModal(props.original)} >Edit Booking</button> <button className="btn btn-sm btn-danger" type="button" onClick={() => this.cancelBooking(props.original)}>Cancel Booking!</button></div>: "No action avaliable"
                             }
                         ]
                         }
