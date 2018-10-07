@@ -177,6 +177,28 @@ app.get('/resturants/list', (req, res) => {
 
 });
 
+app.post('/user/bookings', (req, res) => {
+
+    token = req.headers.authorization.replace("Bearer ","")
+    console.log(token)
+    console.log(req.body.UserID)
+
+    var request = new sql.Request();
+
+    request.query("[dbo].[F_GET_CONTACT_ID_FROM_USERS_ID] '" + req.body.UserID + "'", function (err, result) {
+        
+        if (err) {
+            console.log(err)
+            res.status(401).send({ error: err});
+        }
+        else{
+            res.send(result);
+        }  
+        
+    });
+
+});
+
 
 
 

@@ -7,6 +7,7 @@ import Banner from './components/Banner'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import Authentication from './components/Authentication';
 import decode from 'jwt-decode';
+import "react-table/react-table.css";
 
 
 class App extends Component {
