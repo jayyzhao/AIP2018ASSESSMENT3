@@ -72,7 +72,8 @@ class Bookings extends Component {
             USERS_ID: '',
             pax: '',
             resturantName: '',
-            date: ''
+            date: '',
+            BOOKING_ID: ''
         };
         this.openModal = this.openModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
@@ -90,7 +91,8 @@ class Bookings extends Component {
         user: decode(localStorage.getItem('id_token')),
         USERS_FIRST_NAME: decode(localStorage.getItem('id_token')).USERS_FIRST_NAME,
         USERS_LAST_NAME: decode(localStorage.getItem('id_token')).USERS_LAST_NAME,
-        CONTACT_EMAIL: decode(localStorage.getItem('id_token')).CONTACT_EMAIL
+        CONTACT_EMAIL: decode(localStorage.getItem('id_token')).CONTACT_EMAIL,
+        USERS_ID: decode(localStorage.getItem('id_token')).USERS_ID
         });
         
         this.Auth.fetch('/user/bookings', {
@@ -113,7 +115,8 @@ class Bookings extends Component {
                 modalIsOpen: true,
                 pax: booking.BOOKING_COUNT_PEOPLE,
                 date: new Date(booking.BOOKING_DATE_AND_TIME),
-                resturantName: booking.RESTAURANT_NAME
+                resturantName: booking.RESTAURANT_NAME,
+                BOOKING_ID: booking.BOOKING_ID
             });
             console.log(this.state.date)
         }
@@ -154,22 +157,25 @@ class Bookings extends Component {
             });
           }
 
+          handleUserInput (e) {
+            const name = e.target.name;
+            const value = e.target.value;
+            this.setState({[name]: value});
+              // () => { this.validateField(name, value) });
+            this.setState({valuesChanged: true});
+          }
+
         handleSubmit(e){
         var options = this.state;
         this.Auth.fetch('/user/bookings/modify', {
                 method: 'POST',
                 body: JSON.stringify({options})
         }).then(res =>{
-            if(res.rowsAffected == 1){
-                this.setState({
+            console.log(res)
+            this.setState({
                 modalIsOpen: false,
-                // booked: true,
-                // bookedText:'You have successfully booked ' + this.state.resturantName + " for " + this.state.pax + " people.",
-                // resturantName: '',
-                // resturantId: '',
-                // pax: ''
-                });
-            }
+                data : res
+            })
             })
             .catch(err =>{
                 alert(err);

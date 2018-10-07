@@ -169,8 +169,8 @@ app.post('/resturants/book/:id', function (req, res) {
 
 app.post('/user/bookings/modify', function (req, res) {
     // res.send(req.params)
-    console.log(req.body.options)
     var request = new sql.Request();
+    console.log(req.body)
     // console.log(req.headers.authorization.replace("Bearer ",""))
     jwt.verify(req.headers.authorization.replace("Bearer ",""), 'QWERTYASDF', (err, decodedToken) => 
     {
@@ -181,28 +181,38 @@ app.post('/user/bookings/modify', function (req, res) {
 
     })
 
-    console.log("HELLO")
 
-
-    // request.query("select [dbo].[F_GET_CONTACT_ID_FROM_USERS_ID] ('" + req.body.options.USERS_ID + "') as USER_ID", function (err, result) {
-    //     if (err) {
-    //         console.log(err)
-    //         res.status(500).send({ error: err});
-    //     }
-    //     else{
-    //         request.query("[dbo].[P_IMP_BOOKING] '" + req.body.options.resturantID + "', '" + result.recordset[0].USER_ID + "', '4', '" + req.body.options.pax + "', '" + req.body.options.date + "'", function (err, result) {
-    //             if (err) {
-    //                 console.log(err)
-    //                 res.status(500).send({ error: err});
-    //             }
-    //             else{
-    //                 res.send(result);
-    //             }  
-                
-    //         });
-    //     }  
+    request.query("[dbo].[P_IMP_ALTER_BOOKING] '" + req.body.options.pax + "', '" + req.body.options.date + "', " + req.body.options.BOOKING_ID, function (err, result) {
+        if (err) {
+            console.log(err)
+            res.status(500).send({ error: err});
+        }
+        else{
+            console.log(req.body.options.USERS_ID)
+            request.query("select [dbo].[F_GET_CONTACT_ID_FROM_USERS_ID] ('" + req.body.options.USERS_ID + "') as USER_ID", function (err, result) {
+                if (err) {
+                    console.log(err)
+                    res.status(500).send({ error: err});
+                }
+                else{
+                    console.log(result.recordset[0].USER_ID)
+                    request.query("[dbo].[P_RPT_BOOKINGS_FOR_CONTACT] " + result.recordset[0].USER_ID, function (err, result) {
         
-    // });
+                        if (err) {
+                            console.log(err)
+                            res.status(401).send({ error: err});
+                        }
+                        else{
+                            res.send(result.recordset);
+                        }  
+                        
+                    });
+                }  
+                
+            });
+        }  
+        
+    });
        
 })
 
