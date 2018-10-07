@@ -295,7 +295,26 @@ app.post('/user/create', (req, res) => {
                         }
                         else{
                             console.log(result.recordset)
-                            res.send(result.recordset);
+                            // res.send(result.recordset);
+                            if(req.body.options.IS_OWNER){
+
+                                request.query("[dbo].[P_IMP_CREATE_OWNER] '" + result.recordset[0].USERS_ID + "', '" + req.body.options.CONTACT_EMAIL + "', '04100000000', 'Email'", function (err, result) {
+        
+                                    if (err) {
+                                        console.log(err)
+                                        res.status(500).send({ error: err});
+                                    }
+                                    else{
+                                        console.log(result.recordset)
+                                        res.send(result.recordset);
+                                    }  
+                                    
+                                });
+
+                            }
+                            else{
+                                res.send(result.recordset);
+                            }
                         }  
                         
                     });

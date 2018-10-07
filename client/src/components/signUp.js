@@ -124,7 +124,7 @@ class signUp extends Component {
                       required
                     />
                   </div>  
-                  {/* <div className="form-group">
+                  <div className="form-group">
                     <label htmlFor="IS_OWNER">Restaurant Owner?</label>
                     <input 
                       type="checkbox" 
@@ -134,7 +134,7 @@ class signUp extends Component {
                       onChange={(event) => this.handleUserInput(event)}
                       
                     />
-                  </div>               */}
+                  </div>              
                   <button type="submit" className="btn btn-primary" 
                     // disabled={!this.state.formValid}
                     >Create Account!</button>
