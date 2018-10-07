@@ -72,6 +72,7 @@ class Navigation extends React.Component {
   }
 
   render() {
+    console.log(this.state.user)
     const loggedIn = localStorage.getItem('id_token');
     if(loggedIn){
       const decoded = decode(localStorage.getItem('id_token'));
@@ -85,7 +86,8 @@ class Navigation extends React.Component {
               <NavItem path="/" name="Home" />
               <NavItem path="/Book" name="My Bookings" />  
               <NavItem path="/MyRestaurants" name="My Restaurants" />	
-              <NavItem path="/RestaurantBookings" name="My Restaurants Bookings" />	
+              {this.state.user.USERS_ID = 1 ? 
+              <NavItem path="/RestaurantBookings" name="My Restaurants Bookings" />	: null}
             {this.state.user.USERS_ID > 0 ? (
               <UncontrolledDropdown nav inNavbar>
                 <DropdownToggle nav caret>
