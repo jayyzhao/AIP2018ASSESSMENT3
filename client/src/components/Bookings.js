@@ -61,7 +61,7 @@ class Bookings extends Component {
         super();
         this.Auth = new Authentication();
         this.state = {
-            data: [{firstName: "HELLO"}],
+            data: [],
             user : [],
             USERS_FIRST_NAME: '',
             USERS_LAST_NAME: '',
@@ -73,13 +73,19 @@ class Bookings extends Component {
             pax: '',
             resturantName: '',
             date: '',
-            BOOKING_ID: ''
+            BOOKING_ID: '',
+            orderFood: false,
+            menu: [],
+            meal:[{mealID: '', mealQty: ''}]
         };
         this.openModal = this.openModal.bind(this);
+        this.openFood = this.openFood.bind(this);
         this.closeModal = this.closeModal.bind(this);
+        this.closeFood = this.closeFood.bind(this);
         this.cancelBooking = this.cancelBooking.bind(this);
         this.handleDateTimeChange = this.handleDateTimeChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        // this.handleFood = this.handleFood.bind(this);
       }
 
     componentWillMount() {
@@ -99,11 +105,13 @@ class Bookings extends Component {
             method: 'POST',
             body: JSON.stringify({UserID: decode(localStorage.getItem('id_token')).USERS_ID})
         }).then(res =>{
+            this.setState({data : res, })
             console.log(res);
-            this.setState({data : res})
+            
           })
         .catch(err =>{
-              alert(err);
+            console.log(err);
+              
         })
 
     }
@@ -119,6 +127,31 @@ class Bookings extends Component {
                 BOOKING_ID: booking.BOOKING_ID
             });
             console.log(this.state.date)
+        }
+
+        openFood(booking) {
+
+            this.Auth.fetch('/user/booking/menu', {
+                method: 'POST',
+                body: JSON.stringify(booking)
+            }).then(res =>{
+                console.log(res);
+                this.setState({
+                    orderFood: true,
+                    resturantName: booking.RESTAURANT_NAME,
+                    menu: res
+                })
+              })
+            .catch(err =>{
+                  alert(err);
+            })
+
+        }
+
+        closeFood() {
+            this.setState({
+                orderFood: false
+            });
         }
 
         cancelBooking(booking) {
@@ -150,6 +183,9 @@ class Bookings extends Component {
             event.preventDefault()
             console.log("EDIT");
           }
+        // handelFood(event){
+
+        // }
         
           handleDateTimeChange(event) {
             this.setState({
@@ -163,6 +199,7 @@ class Bookings extends Component {
             this.setState({[name]: value});
               // () => { this.validateField(name, value) });
             this.setState({valuesChanged: true});
+            console.log(this.state.menu)
           }
 
         handleSubmit(e){
@@ -247,11 +284,16 @@ class Bookings extends Component {
     }
     //If not a new booking - return existing bookings
     else{
+        if (!data.length) {
+            return <h1>No Bookings Avaliable</h1>
+          }
+        else{
         return(
             <div>
                 <br/>
                 {cancelAlert}
                 <h1>Show My Bookings</h1>
+        
                 <ReactTable
                     data={data}
                     columns={[
@@ -261,7 +303,7 @@ class Bookings extends Component {
                             {
                             Header: "Resturant",
                             accessor: "RESTAURANT_NAME",
-                            
+                            width:150
                             },
                             {
                             Header: "PAX",
@@ -271,7 +313,7 @@ class Bookings extends Component {
                             {
                             Header: "Booking Date & Time",
                             accessor: "BOOKING_DATE_AND_TIME",
-                            Cell: props => props  ? <Moment>{props.original.BOOKING_DATE_AND_TIME}</Moment> : "Cancelled",
+                            Cell: props => props.original.BOOKING_DATE_AND_TIME  ? <Moment>{props.original.BOOKING_DATE_AND_TIME}</Moment> : null,
                             width: 300
                             },
                             {
@@ -282,15 +324,20 @@ class Bookings extends Component {
                             },
                             {
                             Header: "Action",
-                            Cell: props => props.original.BOOKING_IS_ACTIVE  ? <div><button className="btn btn-sm btn-info" type="button" onClick={() => this.openModal(props.original)} >Edit Booking</button> <button className="btn btn-sm btn-danger" type="button" onClick={() => this.cancelBooking(props.original)}>Cancel Booking!</button></div>: "No action avaliable",
-                            width: 240
+                            Cell: props => props.original.BOOKING_IS_ACTIVE  ? <div>
+                                {/* <button className="btn btn-sm btn-success" type="button" onClick={() => this.openFood(props.original)}>Order Food!</button>  */}
+                                <button className="btn btn-sm btn-info" type="button" onClick={() => this.openModal(props.original)} >Edit Booking</button> 
+                                <button className="btn btn-sm btn-danger" type="button" onClick={() => this.cancelBooking(props.original)}>Cancel Booking!</button> </div> 
+                                : "No Actions Avaliable",
+                            width: 360
                             }
                         ]
                         }
                     ]}
                     defaultPageSize={10}
                     className="-striped -highlight"
-                    />
+                    noDataText={'No rows found'}
+                />
 
             <Modal style={customStyles}
                 isOpen={this.state.modalIsOpen}
@@ -362,8 +409,35 @@ class Bookings extends Component {
                     >Change Booking Time!</button>
                 </form>
             </Modal>
+
+            {/* <Modal style={customStyles}
+                isOpen={this.state.orderFood}
+                onRequestClose={this.closeFood}>
+                <h1 style={headStyles}>{this.state.resturantName}</h1>
+                <br/><br/>
+                <form className="bookTable" onSubmit={this.handleSubmit}>
+                  <h2>Order Your Food!</h2>
+                  {this.state.menu.map(meal => 
+                    <div className="form-group">
+                    <label htmlFor="email">{meal.MEAL_NAME} - ${meal.MEAL_UNIT_PRICE}</label>
+                        <input 
+                        type="number" 
+                        className="form-control"
+                        name='meal[]'
+                        max={10}
+                        value={this.state.menu.qty} 
+                        onChange={(event) => this.hadleFood(event)}
+                        />
+                    </div>
+                  )}                                    
+                  <button type="submit" className="btn btn-primary" 
+                    // disabled={!this.state.formValid}
+                    >Order!</button>
+                </form>
+            </Modal> */}
             </div>
         );
+    }
     }
   }
 }

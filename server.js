@@ -254,7 +254,79 @@ app.post('/user/bookings', (req, res) => {
         
                 if (err) {
                     console.log(err)
-                    res.status(401).send({ error: err});
+                    res.status(500).send({ error: err});
+                }
+                else{
+                    res.send(result.recordset);
+                }  
+                
+            });
+        }  
+        
+    });
+
+});
+
+app.post('/user/create', (req, res) => {
+
+    console.log(req.body)
+    console.log("hello")
+
+    var request = new sql.Request();
+
+    request.query("[dbo].[P_IMP_CreateUser] '" + req.body.options.CONTACT_EMAIL + "', '" +  req.body.options.USERS_FIRST_NAME + "', '" +  req.body.options.USERS_LAST_NAME + "', '" +  req.body.options.password + "'", function (err, result) {
+        if (err) {
+            console.log(err)
+            res.status(500).send({ error: err});
+        }
+        else{
+            request.query("[dbo].[P_RPT_User_Details] '" + req.body.options.CONTACT_EMAIL + "'", function (err, result) {
+        
+                if (err) {
+                    console.log(err)
+                    res.status(500).send({ error: err});
+                }
+                else{
+                    request.query("[dbo].[P_IMP_CREATE_CONTACT] '" + result.recordset[0].USERS_ID + "', '" + req.body.options.CONTACT_EMAIL + "', '04100000000', 'Email'", function (err, result) {
+        
+                        if (err) {
+                            console.log(err)
+                            res.status(500).send({ error: err});
+                        }
+                        else{
+                            console.log(result.recordset)
+                            res.send(result.recordset);
+                        }  
+                        
+                    });
+                }  
+                
+            });
+        }  
+        
+    });
+
+});
+
+app.post('/user/booking/menu', (req, res) => {
+
+    token = req.headers.authorization.replace("Bearer ","")
+    console.log(token)
+    console.log(req.body)
+
+    var request = new sql.Request();
+
+    request.query("[dbo].[P_RPT_Restaurant_Details]" + req.body.RESTAURANT_ID, function (err, result) {
+        if (err) {
+            console.log(err)
+            res.status(500).send({ error: err});
+        }
+        else{
+            request.query("[dbo].[P_RPT_Menu] '" + result.recordset[0].MENU_ID +"'", function (err, result) {
+        
+                if (err) {
+                    console.log(err)
+                    res.status(500).send({ error: err});
                 }
                 else{
                     res.send(result.recordset);

@@ -43,21 +43,25 @@ class Login extends Component {
                 <div className="card">
                     <h1>Login</h1>
                     <form onSubmit={this.handleSubmit}>
-                        <input
-                            className="form-item"
-                            placeholder="Username goes here..."
-                            name="username"
-                            type="text"
+                        <div className="form-group">
+                            <label htmlFor="username">Username</label>
+                            <input 
+                            type="text" 
+                            className="form-control"
+                            name="username" 
                             onChange={this.handleChange}
-                        />
-                        <input
-                            className="form-item"
-                            placeholder="Password goes here..."
-                            name="password"
-                            type="password"
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="password">Password</label>
+                            <input 
+                            type="password" 
+                            className="form-control"
+                            name="password" 
                             onChange={this.handleChange}
-                        />
-                        <input type="submit" value="Submit" />
+                            />
+                        </div>
+                        <input type="submit" className="btn btn-primary" value="Submit" />
                     </form>
                 </div>
             </div>

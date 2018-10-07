@@ -11,8 +11,8 @@ import Datetime from 'react-datetime';
 
 const customStyles = {
   content : {
-    height             : '40%',
-    width              : '40%',
+    height             : '60%',
+    width              : '80%',
     top                : '50%',
     left               : '50%',
     right              : 'auto',
@@ -70,14 +70,42 @@ export default class MyRestaurants extends Component {
       resturants: [],
       modalIsOpen: false,
       resturantName: '',
-      date: new Date()
+      date: new Date(),
+      menu: [],
+      menuModalisOpen: false,
     }
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
     this.handleEdit = this.handleEdit.bind(this); // Function where we submit data
+    this.menuModal = this.menuModal.bind(this);
+    this.closeMenuModal = this.closeMenuModal.bind(this);
   }
 
   onChange = date => this.setState({ date })
+
+  menuModal(member) {
+    console.log(member);
+    this.Auth.fetch('/user/booking/menu', {
+      method: 'POST',
+      body: JSON.stringify(member)
+    }).then(res =>{
+        console.log(res);
+        this.setState({
+          menuModalisOpen: true,
+            resturantName: member.RESTAURANT_NAME,
+            menu: res,
+            resturantID: member.RESTAURANT_ID,
+        })
+      })
+    .catch(err =>{
+          alert(err);
+    })
+  }
+  closeMenuModal() {
+    this.setState({
+      menuModalisOpen: false
+    });
+  }
 
   openModal(member) {
     console.log(member.RESTAURANT_NAME);
@@ -159,8 +187,8 @@ export default class MyRestaurants extends Component {
                       <p className="card-text">{member.RESTAURANT_NAME}</p>
                       <div className="d-flex justify-content-between align-items-center">
                         <div className="btn-group">
-						  <button onClick={() => this.openModal(member)} className="btn btn-sm btn-outline-secondary" type="button">View Menu</button>
-						  <button onClick={() => this.openModal(member)} className="btn btn-sm btn-outline-secondary" type="button">Edit Menu</button>
+						  <button onClick={() => this.menuModal(member)} className="btn btn-sm btn-outline-secondary" type="button">View Menu</button>
+						  {/* <button onClick={() => this.openModal(member)} className="btn btn-sm btn-outline-secondary" type="button">Edit Menu</button> */}
                           {/* <button type="button" className="btn btn-sm btn-outline-secondary">Book Now!</button>
                                           //<DateTimePicker
                     onChange={this.onChange}
@@ -174,17 +202,13 @@ export default class MyRestaurants extends Component {
                 </div>
             )}
             <Modal style={customStyles}
-                isOpen={this.state.modalIsOpen}
-                onRequestClose={this.closeModal}>
-                <h1 style={headStyles}>{this.state.resturantName}</h1>
-                
-                <form>
-                  <div style={textStyles}>
-                  <div style={nameStyles}><label>Name: </label><input value="Name" style={{color:'lightgrey'}}/><br/></div>
-                  <label>Phone Number: </label><input value="Number" style={{color:'lightgrey'}}/><br/>
-                  </div>
-                  <button className="btn btn-sm" style={buttonStyles}>Book Table</button>
-              </form>
+                isOpen={this.state.menuModalisOpen}
+                onRequestClose={this.closeMenuModal}>
+                <h1 style={headStyles}>{this.state.resturantName} Menu</h1>
+                <br/><br/>
+                {this.state.menu.map(meal => 
+                    <div><h1>{meal.MEAL_NAME} - ${meal.MEAL_UNIT_PRICE}</h1></div>
+                )}
             </Modal>
           </div>
         </div>

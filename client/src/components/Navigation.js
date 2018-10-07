@@ -85,19 +85,25 @@ class Navigation extends React.Component {
             <Nav className="ml-auto" navbar>
               <NavItem path="/" name="Home" />
               <NavItem path="/Book" name="My Bookings" />  
-              <NavItem path="/MyRestaurants" name="My Restaurants" />	
-              {this.state.user.IS_OWNER == 1 ? 
+              {decoded.IS_OWNER == 1 ? 
+              <NavItem path="/MyRestaurants" name="My Restaurants" />	: null}
+              {decoded.IS_OWNER == 1 ? 
               <NavItem path="/RestaurantBookings" name="My Restaurants Bookings" />	: null}
-            {this.state.user.USERS_ID > 0 ? (
+            {decoded.USERS_ID > 0 ? (
               <UncontrolledDropdown nav inNavbar>
                 <DropdownToggle nav caret>
                 <FontAwesomeIcon className="userIcon" icon={faUserCircle} size="lg"></FontAwesomeIcon>
                 </DropdownToggle>
                 <DropdownMenu right className="userIconDropDown" style={{fontSize:'15px'}}>
+                {decoded.IS_OWNER == 1 ? 
+                    <div>
                     <DropdownItem>
-                      Create Restaurant
+                      <a href="/createResturant">
+                        Create Resutrant
+                      </a>
                     </DropdownItem>
-                    <DropdownItem divider />
+                    <DropdownItem divider /></div>
+                    : null}
                     <DropdownItem>
                     <div onClick={this.logout}>
                       Logout

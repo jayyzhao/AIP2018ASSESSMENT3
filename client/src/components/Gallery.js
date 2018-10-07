@@ -69,12 +69,14 @@ export default class Gallery extends Component {
       USERS_ID: '',
       resturants: [],
       modalIsOpen: false,
+      menuModalisOpen: false,
       resturantName: '',
       resturantID: '',
       pax: '',
       date: new Date(),
       booked: false,
       bookedText: '',
+      menu: [],
       // formErrors: {firstName: '', password: ''},
       // password: '',
       // passwordValid: false,
@@ -85,6 +87,8 @@ export default class Gallery extends Component {
     }
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
+    this.menuModal = this.menuModal.bind(this);
+    this.closeMenuModal = this.closeMenuModal.bind(this);
     this.handleEdit = this.handleEdit.bind(this); // Function where we submit data
     this.handleDateTimeChange = this.handleDateTimeChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -101,6 +105,29 @@ export default class Gallery extends Component {
     });
   }
 
+  menuModal(member) {
+    console.log(member);
+    this.Auth.fetch('/user/booking/menu', {
+      method: 'POST',
+      body: JSON.stringify(member)
+    }).then(res =>{
+        console.log(res);
+        this.setState({
+          menuModalisOpen: true,
+            resturantName: member.RESTAURANT_NAME,
+            menu: res,
+            resturantID: member.RESTAURANT_ID,
+        })
+      })
+    .catch(err =>{
+          alert(err);
+    })
+  }
+  closeMenuModal() {
+    this.setState({
+      menuModalisOpen: false
+    });
+  }
   closeModal() {
     this.setState({
         modalIsOpen: false
@@ -258,6 +285,7 @@ export default class Gallery extends Component {
                       <p className="card-text">{member.RESTAURANT_NAME}</p>
                       <div className="d-flex justify-content-between align-items-center">
                         <div className="btn-group">
+                          <button onClick={() => this.menuModal(member)} className="btn btn-sm btn-outline-secondary" type="button">View Menu</button>
                           <button onClick={() => this.openModal(member)} className="btn btn-sm btn-outline-secondary" type="button">Book Now!</button>
                           {/* <button type="button" className="btn btn-sm btn-outline-secondary">Book Now!</button>
                                           //<DateTimePicker
@@ -340,6 +368,15 @@ export default class Gallery extends Component {
                     // disabled={!this.state.formValid}
                     >Book!</button>
                 </form>
+            </Modal>
+            <Modal style={customStyles}
+                isOpen={this.state.menuModalisOpen}
+                onRequestClose={this.closeMenuModal}>
+                <h1 style={headStyles}>{this.state.resturantName} Menu</h1>
+                <br/><br/>
+                {this.state.menu.map(meal => 
+                    <div><h1>{meal.MEAL_NAME} - ${meal.MEAL_UNIT_PRICE}</h1></div>
+                )}
             </Modal>
           </div>
         </div>
