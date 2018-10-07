@@ -73,6 +73,7 @@ export default class Gallery extends Component {
       pax: '',
       date: new Date(),
       booked: false,
+      bookedText: '',
       // formErrors: {firstName: '', password: ''},
       // password: '',
       // passwordValid: false,
@@ -159,7 +160,11 @@ export default class Gallery extends Component {
         if(res.rowsAffected == 1){
           this.setState({
             modalIsOpen: false,
-            booked: true
+            booked: true,
+            bookedText:'You have successfully booked ' + this.state.resturantName + " for " + this.state.pax + " people.",
+            resturantName: '',
+            resturantId: '',
+            pax: ''
           });
         }
       })
@@ -229,7 +234,7 @@ export default class Gallery extends Component {
       return current.isAfter(yesterday);
     };
     // var passwordValid = this.state.passwordValid == false && this.state.valuesChanged == true ?  <div className="alert alert-danger">{this.state.formErrors.password}</div> : null ;
-    var bookedAlert = this.state.booked ?  <div className="alert alert-success">You have booked your Resturant!</div> : null ;
+    var bookedAlert = this.state.booked ?  <div className="alert alert-success">{this.state.bookedText}</div> : null ;
     
     return (      
       <div>
