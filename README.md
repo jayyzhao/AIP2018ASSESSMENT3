@@ -9,3 +9,12 @@ npm i --save @fortawesome/fontawesome-svg-core
   
  npm i --save @fortawesome/react-fontawesome     
 
+ 
+DB Install instructions: 
+Install db in following order:
+
+1: Deploy all Tables
+2: Deploy Encryption Script
+3: Deploy all Functions
+4: Deploy all Procedures
+
