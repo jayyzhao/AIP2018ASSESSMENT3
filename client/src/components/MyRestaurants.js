@@ -4,6 +4,7 @@ import Validation from 'react-validation';
 import Authentication from './Authentication';
 import DateTimePicker from 'react-datetime-picker';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import decode from 'jwt-decode';
 
 const customStyles = {
   content : {
@@ -60,6 +61,8 @@ export default class MyRestaurants extends Component {
     super();
     this.Auth = new Authentication();
     this.state = {
+	  user : [],
+      USERS_ID: '',
       resturants: [],
       modalIsOpen: false,
       resturantName: '',
@@ -77,12 +80,13 @@ export default class MyRestaurants extends Component {
     this.setState({
         modalIsOpen: true,
         resturantName: member.RESTAURANT_NAME,
+        resturantID: member.RESTAURANT_ID,
     });
   }
 
   closeModal() {
     this.setState({
-        modalIsOpen: false
+        modalIsOpen: true
     });
   }
 
@@ -97,9 +101,26 @@ export default class MyRestaurants extends Component {
         this.props.history.replace('/login')
     }
     else{
-      let self = this;
+		this.setState({
+        user: decode(localStorage.getItem('id_token')),
+        USERS_FIRST_NAME: decode(localStorage.getItem('id_token')).USERS_FIRST_NAME,
+        USERS_ID: decode(localStorage.getItem('id_token')).USERS_ID
+      });
+	  var userid = decode(localStorage.getItem('id_token')).USERS_ID;
+	  let self = this;
+
+	  console.log(decode(localStorage.getItem('id_token')).USERS_ID);
+	  console.log(JSON.stringify({
+                userid
+            }))
       fetch('/MyResturants/list', {
-          method: 'GET'
+          method: 'POST',
+		  body: JSON.stringify({
+                userid
+            }),
+		  headers: {
+                "Content-Type": "application/json"
+            }
       }).then(function(response) {
           if (response.status >= 400) {
               throw new Error("Bad response from server");

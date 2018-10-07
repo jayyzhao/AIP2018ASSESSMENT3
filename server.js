@@ -169,15 +169,24 @@ app.get('/resturants/list', (req, res) => {
 
 });
 
-app.get('/MyResturants/list', (req, res) => {
+
+
+
+app.post('/MyResturants/list', (req, res) => {
+
+
+    var user_id = req.body.userid;
 
     var request = new sql.Request();
 
     var authenticated =0;
 
 	
+	console.log('Log after:');
+	//console.log(req);
+	console.log(req.body);
 	
-    request.query("[dbo].[P_RPT_Restaurant_By_Owner] '" + 19 +"'" , function (err, result) {
+    request.query("[dbo].[P_RPT_Restaurant_By_Owner] " + user_id , function (err, result) {
         
         if (err) {
             console.log(err)
@@ -187,7 +196,8 @@ app.get('/MyResturants/list', (req, res) => {
             res.send(result);
         }  
         
-    });
+    })
+	
 
 });
 
