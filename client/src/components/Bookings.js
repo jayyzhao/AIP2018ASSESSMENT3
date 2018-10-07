@@ -105,10 +105,11 @@ class Bookings extends Component {
                             {
                             Header: "Booking Status",
                             accessor: "BOOKING_IS_ACTIVE",
-                            Cell: "hello"
+                            Cell: props => props.original.BOOKING_IS_ACTIVE  ? "Active" : "Cancelled"
                             },
                             {
                             Header: "Action",
+                            Cell: props => props.original.BOOKING_IS_ACTIVE  ? "Modify or Cancel Booking" : "No Action"
                             }
                         ]
                         }
