@@ -255,7 +255,7 @@ class RestaurantBookings extends Component {
                             {
                             Header: "Resturant",
                             accessor: "RESTAURANT_NAME",
-                            width: 50
+                            width: 150
                             },
                             {
                             Header: "PAX",
