@@ -72,7 +72,7 @@ class Navigation extends React.Component {
   }
 
   render() {
-
+    console.log(this.state.user)
     const loggedIn = localStorage.getItem('id_token');
     if(loggedIn){
       const decoded = decode(localStorage.getItem('id_token'));
@@ -86,7 +86,7 @@ class Navigation extends React.Component {
               <NavItem path="/" name="Home" />
               <NavItem path="/Book" name="My Bookings" />  
               <NavItem path="/MyRestaurants" name="My Restaurants" />	
-              {this.state.user.IS_OWNER = 1 ? 
+              {this.state.user.IS_OWNER == 1 ? 
               <NavItem path="/RestaurantBookings" name="My Restaurants Bookings" />	: null}
             {this.state.user.USERS_ID > 0 ? (
               <UncontrolledDropdown nav inNavbar>
@@ -99,7 +99,9 @@ class Navigation extends React.Component {
                     </DropdownItem>
                     <DropdownItem divider />
                     <DropdownItem>
+                    <div onClick={this.logout}>
                       Logout
+                    </div>
                     </DropdownItem>
                   </DropdownMenu>
                 </UncontrolledDropdown>
@@ -113,42 +115,6 @@ class Navigation extends React.Component {
           </Collapse>
         </Navbar>
       </div>
-        // <nav className="navbar navbar-expand-sm navbar-dark bg-dark">
-        //   <a className="navbar-brand" href="/" style={{fontSize:30}}>Book-A-Table</a>
-        //   <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        //     <span className="navbar-toggler-icon"></span>
-        //   </button>
-  
-        //   <div className="collapse navbar-collapse" id="navbarSupportedContent">
-        //     <ul className="navbar-nav mr-auto">
-        //       <NavItem path="/" name="Home" />
-        //       <NavItem path="/Book" name="My Bookings" />  
-        //       <NavItem path="/MyRestaurants" name="My Restaurants" />			  
-        //     </ul>          
-        //       <ul className="navbar-nav my-1 my-lg-0" style={{color:'white',fontStyle:'italic'}}>
-        //         <span className="userInfo">Welcome {decoded.USERS_FIRST_NAME} {decoded.USERS_LAST_NAME}</span> 
-        //         <UncontrolledDropdown nav inNavbar>
-        //           <DropdownToggle nav caret>
-        //           <FontAwesomeIcon className="userIcon" icon={faUserCircle} size="lg"></FontAwesomeIcon>
-        //           </DropdownToggle>
-        //           <DropdownMenu right className="userIconDropDown" style={{fontSize:'15px'}}>
-        //             <DropdownItem>
-        //               Option 1
-        //             </DropdownItem>
-        //             <DropdownItem>
-        //               Option 2
-        //             </DropdownItem>
-        //             <DropdownItem divider />
-        //             <DropdownItem>
-        //               <div onClick={this.logout}>
-        //               Logout
-        //               </div>
-        //             </DropdownItem>
-        //           </DropdownMenu>
-        //         </UncontrolledDropdown>
-        //       </ul>
-        //   </div>
-        // </nav>
       )
     }
     else{
@@ -167,7 +133,9 @@ class Navigation extends React.Component {
                 <DropdownMenu right className="userIconDropDown" style={{fontSize:'15px'}}>
                     <DropdownItem divider />
                     <DropdownItem>
+                    <div onClick={this.logout}>
                       Logout
+                    </div>
                     </DropdownItem>
                   </DropdownMenu>
                 </UncontrolledDropdown>
