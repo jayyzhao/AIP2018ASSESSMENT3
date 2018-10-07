@@ -58,49 +58,99 @@ class Navigation extends React.Component {
       this.setState({user: decode(localStorage.getItem('id_token'))});
     }
   }
+  
+
 
   render() {
     const loggedIn = localStorage.getItem('id_token');
     if(loggedIn){
       const decoded = decode(localStorage.getItem('id_token'));
-      return (
-        <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-          <a className="navbar-brand" href="/" style={{fontSize:30}}>Book-A-Table</a>
-          <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span className="navbar-toggler-icon"></span>
-          </button>
-  
-          <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul className="navbar-nav mr-auto">
-              <NavItem path="/" name="Home" />
-              <NavItem path="/Book" name="My Bookings" />  
-              <NavItem path="/MyRestaurants" name="My Restaurants" />			  
-            </ul>          
-              <ul className="navbar-nav my-1 my-lg-0" style={{color:'white',fontStyle:'italic'}}>
-                <span className="userInfo">Welcome {decoded.USERS_FIRST_NAME} {decoded.USERS_LAST_NAME}</span> 
-                <UncontrolledDropdown nav inNavbar>
-                  <DropdownToggle nav caret>
-                  <FontAwesomeIcon className="userIcon" icon={faUserCircle} size="lg"></FontAwesomeIcon>
-                  </DropdownToggle>
-                  <DropdownMenu right className="userIconDropDown" style={{fontSize:'15px'}}>
-                    <DropdownItem>
-                      Option 1
-                    </DropdownItem>
-                    <DropdownItem>
-                      Option 2
-                    </DropdownItem>
-                    <DropdownItem divider />
-                    <DropdownItem>
-                      <div onClick={this.logout}>
-                      Logout
-                      </div>
-                    </DropdownItem>
-                  </DropdownMenu>
-                </UncontrolledDropdown>
-              </ul>
-          </div>
-        </nav>
-      )
+	  //MENU FOR OWNERS ONLY
+	  console.log('isowner:');
+	  console.log(decoded.IS_OWNER);
+	  if(decoded.IS_OWNER == 1)
+	  {
+		  return (
+			<nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+			  <a className="navbar-brand" href="/" style={{fontSize:30}}>Book-A-Table</a>
+			  <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				<span className="navbar-toggler-icon"></span>
+			  </button>
+	  
+			  <div className="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul className="navbar-nav mr-auto">
+				  <NavItem path="/" name="Home" />
+				  <NavItem path="/Book" name="My Bookings" />  
+				  <NavItem path="/MyRestaurants" name="My Restaurants" />		
+				  <NavItem path="/RestaurantBookings" name="My Restaurants Bookings" />				  
+				</ul>          
+				  <ul className="navbar-nav my-1 my-lg-0" style={{color:'white',fontStyle:'italic'}}>
+					<span className="userInfo">Welcome {decoded.USERS_FIRST_NAME} {decoded.USERS_LAST_NAME}</span> 
+					<UncontrolledDropdown nav inNavbar>
+					  <DropdownToggle nav caret>
+					  <FontAwesomeIcon className="userIcon" icon={faUserCircle} size="lg"></FontAwesomeIcon>
+					  </DropdownToggle>
+					  <DropdownMenu right className="userIconDropDown" style={{fontSize:'15px'}}>
+						<DropdownItem>
+						  Option 1
+						</DropdownItem>
+						<DropdownItem>
+						  Option 2
+						</DropdownItem>
+						<DropdownItem divider />
+						<DropdownItem>
+						  <div onClick={this.logout}>
+						  Logout
+						  </div>
+						</DropdownItem>
+					  </DropdownMenu>
+					</UncontrolledDropdown>
+				  </ul>
+			  </div>
+			</nav>
+		  )
+	  }
+	  //MENU FOR NON OWNERS ONLY
+	  else 
+	  {
+		return (
+			<nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+			  <a className="navbar-brand" href="/" style={{fontSize:30}}>Book-A-Table</a>
+			  <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				<span className="navbar-toggler-icon"></span>
+			  </button>
+	  
+			  <div className="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul className="navbar-nav mr-auto">
+				  <NavItem path="/" name="Home" />
+				  <NavItem path="/Book" name="My Bookings" />  		  
+				</ul>          
+				  <ul className="navbar-nav my-1 my-lg-0" style={{color:'white',fontStyle:'italic'}}>
+					<span className="userInfo">Welcome {decoded.USERS_FIRST_NAME}  {decoded.USERS_LAST_NAME}</span> 
+					<UncontrolledDropdown nav inNavbar>
+					  <DropdownToggle nav caret>
+					  <FontAwesomeIcon className="userIcon" icon={faUserCircle} size="lg"></FontAwesomeIcon>
+					  </DropdownToggle>
+					  <DropdownMenu right className="userIconDropDown" style={{fontSize:'15px'}}>
+						<DropdownItem>
+						  Option 1
+						</DropdownItem>
+						<DropdownItem>
+						  Option 2
+						</DropdownItem>
+						<DropdownItem divider />
+						<DropdownItem>
+						  <div onClick={this.logout}>
+						  Logout
+						  </div>
+						</DropdownItem>
+					  </DropdownMenu>
+					</UncontrolledDropdown>
+				  </ul>
+			  </div>
+			</nav>
+		  )
+	  }
     }
     else{
       return (
