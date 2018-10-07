@@ -238,6 +238,7 @@ export default class Gallery extends Component {
     
     return (      
       <div>
+        <br/>
         {bookedAlert}
         {/* Begining of the Albumn Gallery */}
         <div className="album py-5 bg-light">
@@ -307,7 +308,7 @@ export default class Gallery extends Component {
                   <div className="form-group">
                     <label htmlFor="email">Email</label>
                     <input 
-                      type="text" 
+                      type="email" 
                       className="form-control"
                       name="CONTACT_EMAIL" 
                       value={this.state.CONTACT_EMAIL} 
@@ -317,7 +318,7 @@ export default class Gallery extends Component {
                   <div className="form-group">
                     <label htmlFor="email">Number of People</label>
                     <input 
-                      type="text" 
+                      type="number" 
                       className="form-control"
                       name="pax" 
                       value={this.state.pax} 
