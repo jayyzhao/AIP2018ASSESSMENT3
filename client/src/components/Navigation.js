@@ -85,6 +85,7 @@ class Navigation extends React.Component {
               <NavItem path="/" name="Home" />
               <NavItem path="/Book" name="My Bookings" />  
               <NavItem path="/MyRestaurants" name="My Restaurants" />	
+              <NavItem path="/RestaurantBookings" name="My Restaurants Bookings" />	
             {this.state.user.USERS_ID > 0 ? (
               <UncontrolledDropdown nav inNavbar>
                 <DropdownToggle nav caret>
