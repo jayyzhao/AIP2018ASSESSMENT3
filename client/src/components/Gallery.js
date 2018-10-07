@@ -127,7 +127,7 @@ export default class Gallery extends Component {
         user: decode(localStorage.getItem('id_token')),
         USERS_FIRST_NAME: decode(localStorage.getItem('id_token')).USERS_FIRST_NAME,
         USERS_LAST_NAME: decode(localStorage.getItem('id_token')).USERS_LAST_NAME,
-        CONTACTT_EMAIL: decode(localStorage.getItem('id_token')).CONTACTT_EMAIL
+        CONTACT_EMAIL: decode(localStorage.getItem('id_token')).CONTACT_EMAIL
       });
       let self = this;
       fetch('/resturants/list', {
@@ -155,8 +155,11 @@ export default class Gallery extends Component {
   }
 
   handleSubmit(e){
-    this.Auth.fetch('resturants/book/' + this.state.resturantID, this.state)
-      .then(res =>{
+    var options = this.state;
+    this.Auth.fetch('resturants/book/' + this.state.resturantID, {
+            method: 'POST',
+            body: JSON.stringify({options})
+    }).then(res =>{
         if(res.rowsAffected == 1){
           this.setState({
             modalIsOpen: false,
@@ -293,6 +296,7 @@ export default class Gallery extends Component {
                       name="USERS_FIRST_NAME" 
                       value={this.state.USERS_FIRST_NAME} 
                       onChange={(event) => this.handleUserInput(event)}
+                      disabled
                     />
                   </div>
                   <div className="form-group">
@@ -303,6 +307,7 @@ export default class Gallery extends Component {
                       name="USERS_LAST_NAME" 
                       value={this.state.USERS_LAST_NAME} 
                       onChange={(event) => this.handleUserInput(event)}
+                      disabled
                     />
                   </div>
                   <div className="form-group">
@@ -313,6 +318,7 @@ export default class Gallery extends Component {
                       name="CONTACT_EMAIL" 
                       value={this.state.CONTACT_EMAIL} 
                       onChange={(event) => this.handleUserInput(event)}
+                      disabled
                     />
                   </div>
                   <div className="form-group">
@@ -321,6 +327,7 @@ export default class Gallery extends Component {
                       type="number" 
                       className="form-control"
                       name="pax" 
+                      max={10}
                       value={this.state.pax} 
                       onChange={(event) => this.handleUserInput(event)}
                     />

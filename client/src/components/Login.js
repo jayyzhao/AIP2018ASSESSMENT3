@@ -12,7 +12,6 @@ class Login extends Component {
     }
 
     handleSubmit(e){
-
       this.Auth.login(this.state.username,this.state.password)
         .then(res =>{
           this.props.history.replace('/');

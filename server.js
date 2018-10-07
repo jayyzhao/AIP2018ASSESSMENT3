@@ -37,10 +37,10 @@ app.post('/users/login', (req, res) => {
     
     var username = req.body.username;
     var password = req.body.password;
-
+    console.log(req.body)
     var request = new sql.Request();
     var authenticated = 0;
-    
+    // console.log("[dbo].[P_PRC_CheckPassword] '" + password + "', '" + username + "'")
     // query to the database and get the records
     request.query("[dbo].[P_PRC_CheckPassword] '" + password + "', '" + username + "'", function (err, result) {
         
@@ -50,7 +50,7 @@ app.post('/users/login', (req, res) => {
             authenticated = 1;
             
         }
-        console.log(result.recordset[0].RESULT);
+        // console.log(result.recordset[0].RESULT);
 
         if(authenticated == 1){
 
@@ -65,7 +65,7 @@ app.post('/users/login', (req, res) => {
                 }, 'QWERTYASDF', {
                     expiresIn: 86400,
                 });
-
+                // console.log(result.recordset[0])
                 res.status(200).send({token: token, USERS_ID: result.recordset[0].USERS_ID,USERS_FIRST_NAME: result.recordset[0].USERS_FIRST_NAME, USERS_LAST_NAME: result.recordset[0].USERS_LAST_NAME, CONTACT_EMAIL: result.recordset[0].CONTACT_EMAIL});
                 // {"USERS_ID":"19","USERS_FIRST_NAME":"person","USERS_LAST_NAME":"testing","CONTACT_EMAIL":null,"CONTACT_MOBILE":null,"CONTACT_PREFERED_CONTACT":null}
         
@@ -132,13 +132,21 @@ app.get('/user/token/:token', function (req, res) {
 
 app.post('/resturants/book/:id', function (req, res) {
     // res.send(req.params)
-    console.log(req.body.options.pax)
+    // console.log(req.body.options.pax)
     var request = new sql.Request();
-    console.log("[dbo].[P_IMP_BOOKING] '" + req.body.options.resturantID + "', '" + req.body.options.user.USERS_ID + "', '4', '" + req.body.options.pax + "', '" + req.body.options.date + "'")
+    // console.log(req.headers.authorization.replace("Bearer ",""))
+    jwt.verify(req.headers.authorization.replace("Bearer ",""), 'QWERTYASDF', (err, decodedToken) => 
+    {
+      if (err || !decodedToken)
+      {
+        res.status(401).send({ error: err});
+      }
+
+    })
     request.query("[dbo].[P_IMP_BOOKING] '" + req.body.options.resturantID + "', '" + req.body.options.user.USERS_ID + "', '4', '" + req.body.options.pax + "', '" + req.body.options.date + "'", function (err, result) {
         if (err) {
             console.log(err)
-            res.status(401).send({ error: err});
+            res.status(500).send({ error: err});
         }
         else{
             res.send(result);

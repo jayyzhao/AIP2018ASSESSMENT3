@@ -9,7 +9,7 @@ export default class AuthService {
     }
 
     login(username, password) {
-        // Get a token from api server using the fetch api
+        // Get a token from api server using the fetch api\
         return this.fetch(`${this.domain}/users/login`, {
             method: 'POST',
             body: JSON.stringify({
@@ -17,6 +17,7 @@ export default class AuthService {
                 password
             })
         }).then(res => {
+            console.log(res.token)
             this.setToken(res.token) // Setting the token in localStorage
             return Promise.resolve(res);
         })
@@ -69,8 +70,7 @@ export default class AuthService {
         }
         return fetch(url, {
             headers,
-            method: 'POST',
-            body: JSON.stringify({options})
+            ...options
             
         })
             .then(this._checkStatus)
