@@ -122,7 +122,7 @@ class Slider extends Component {
 		const _this = this;
 		return (
 
-			<div className="sliderwrap" style={{ width: _this.state.liwidth, height: _this.state.liheight }} onMouseOver={(e) => _this.stopTimer(e)} onMouseLeave={(e) => _this.startTimer(e)}>
+			<div className="sliderwrap"  onMouseOver={(e) => _this.stopTimer(e)} onMouseLeave={(e) => _this.startTimer(e)}>
 				<div className="slidernavbar">
 					{
 						imgUrl.map(function (val, index) {
