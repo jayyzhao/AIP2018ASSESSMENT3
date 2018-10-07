@@ -1,0 +1,30 @@
+CREATE MASTER KEY ENCRYPTION BY   
+PASSWORD = ****MASTER PASSWORD HERE****
+
+
+CREATE CERTIFICATE PasswordsCertificate  
+   WITH SUBJECT = 'Passwords Column Certificate';
+
+CREATE SYMMETRIC KEY Password_Key  
+    WITH ALGORITHM = AES_256  
+    ENCRYPTION BY CERTIFICATE PasswordsCertificate;
+
+
+ALTER TABLE dbo.PASSWORDS   
+    ADD Password_Encrypted varchar(255);   
+
+OPEN SYMMETRIC KEY Password_Key  
+   DECRYPTION BY CERTIFICATE PasswordsCertificate;  
+
+UPDATE dbo.PASSWORDS  
+SET Password_Encrypted = EncryptByKey(Key_GUID('Password_Key')  
+    , Password_Encrypted, 1, HashBytes('SHA1', CONVERT( varbinary  
+    , PASSWORDS_ID)));  
+GO  
+
+OPEN SYMMETRIC KEY Password_Key  
+   DECRYPTION BY CERTIFICATE PasswordsCertificate;  
+GO  
+
+   DECRYPTION BY CERTIFICATE PasswordsCertificate;  
+GO  
