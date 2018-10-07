@@ -72,7 +72,8 @@ class RestaurantBookings extends Component {
             USERS_ID: '',
             pax: '',
             resturantName: '',
-            date: ''
+            date: '',
+            BOOKING_ID: ''
         };
         this.openModal = this.openModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
@@ -113,7 +114,8 @@ class RestaurantBookings extends Component {
                 modalIsOpen: true,
                 pax: booking.BOOKING_COUNT_PEOPLE,
                 date: new Date(booking.BOOKING_DATE_AND_TIME),
-                resturantName: booking.RESTAURANT_NAME
+                resturantName: booking.RESTAURANT_NAME,
+                BOOKING_ID: booking.BOOKING_ID
             });
             console.log(this.state.date)
         }
@@ -123,12 +125,13 @@ class RestaurantBookings extends Component {
                 method: 'POST',
                 body: JSON.stringify(booking)
             }).then(res =>{
-                console.log(res);
-                this.setState({
-                    data : res,
-                    bookingCanceled: true,
-                    bookingCanceledText: 'Your Booking has been Cancelled!'
-                })
+                // console.log(res);
+                window.location.assign('/RestaurantBookings');
+                // this.setState({
+                //     data : res,
+                //     bookingCanceled: true,
+                //     bookingCanceledText: 'Your Booking has been Cancelled!'
+                // })
               })
             .catch(err =>{
                   alert(err);
@@ -154,6 +157,13 @@ class RestaurantBookings extends Component {
             });
           }
 
+          handleUserInput (e) {
+            const name = e.target.name;
+            const value = e.target.value;
+            this.setState({[name]: value});
+              // () => { this.validateField(name, value) });
+            this.setState({valuesChanged: true});
+          }
         handleSubmit(e){
         var options = this.state;
         this.Auth.fetch('/user/bookings/modify', {
@@ -169,7 +179,9 @@ class RestaurantBookings extends Component {
                 // resturantId: '',
                 // pax: ''
                 });
+                
             }
+            window.location.assign('/RestaurantBookings');
             })
             .catch(err =>{
                 alert(err);
