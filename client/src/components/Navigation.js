@@ -95,7 +95,7 @@ class Navigation extends React.Component {
                 <FontAwesomeIcon className="userIcon" icon={faUserCircle} size="lg"></FontAwesomeIcon>
                 </DropdownToggle>
                 <DropdownMenu right className="userIconDropDown" style={{fontSize:'15px'}}>
-                {decoded.IS_OWNER == 1 ? 
+                {/* {decoded.IS_OWNER == 1 ? 
                     <div>
                     <DropdownItem>
                       <a href="/createResturant">
@@ -103,7 +103,7 @@ class Navigation extends React.Component {
                       </a>
                     </DropdownItem>
                     <DropdownItem divider /></div>
-                    : null}
+                    : null} */}
                     <DropdownItem>
                     <div onClick={this.logout}>
                       Logout
