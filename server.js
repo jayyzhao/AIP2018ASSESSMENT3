@@ -299,7 +299,7 @@ app.post('/user/create', (req, res) => {
                             // res.send(result.recordset);
                             if(req.body.options.IS_OWNER){
 
-                                request.query("[dbo].[P_IMP_CREATE_OWNER] '" + user_id + "', '" + req.body.options.CONTACT_EMAIL + "', '04100000000', 'Email'", function (err, result) {
+                                request.query("[dbo].[P_IMP_CREATE_OWNER] '" + user_id, function (err, result) {
         
                                     if (err) {
                                         console.log(err)
