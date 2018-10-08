@@ -2,8 +2,8 @@
     opacity: 0;
   }
   
-  .ReactModal__Content--after-open {
+.ReactModal__Content--after-open {
     opacity: 1;
-    transition: opacity 700ms;
+    transition: opacity 600ms;
   }
   
