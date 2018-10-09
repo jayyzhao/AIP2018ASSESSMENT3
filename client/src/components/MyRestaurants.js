@@ -6,7 +6,7 @@ import DateTimePicker from 'react-datetime-picker';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import decode from 'jwt-decode';
 import Datetime from 'react-datetime';
-
+import "./css/modalTransition.css";
 
 
 const customStyles = {
@@ -22,16 +22,6 @@ const customStyles = {
   }
 };
 
-const buttonStyles = {
-      color:'white',
-      width:'20%',
-      position:'absolute',
-      left:'230px',
-      bottom:'10px',
-      height:'50px',
-      backgroundColor:'steelblue'
-};
-
 const headStyles = {
   color:'white',
   textAlign:'center',
@@ -44,18 +34,27 @@ const headStyles = {
   backgroundColor:'steelblue'
 };
 
-const textStyles = {
+const headStylesMenu = {
+  color:'white',
   textAlign:'center',
-  textStyles:'bold',
-  fontSize:'20px',
-  color:'steelblue',
-  fontFamily:'Arial,Verdana,Sans-serif',
+  width:'100%',
   position:'absolute',
-  top:'100px'
+  top:'0',
+  right:'0',
+  left:'0',
+  height:'50px',
+  backgroundColor:'tomato'
 };
 
-const nameStyles = {
-  paddingLeft:'82px'
+const priceStyles = {
+    width:"50px",
+    height:"50px",
+    borderRadius:"50%",
+    fontSize:"25px",
+    color:"white",
+    lineHeight:"50px",
+    float:"right",
+    backgroundColor:"tomato",
 };
 
 export default class MyRestaurants extends Component {
@@ -167,12 +166,7 @@ export default class MyRestaurants extends Component {
     }
   }
   
-
-
-  render() {
-	  
-
-	 
+  render() { 
     return (      
 	
       <div>
@@ -188,12 +182,6 @@ export default class MyRestaurants extends Component {
                       <div className="d-flex justify-content-between align-items-center">
                         <div className="btn-group">
 						  <button onClick={() => this.menuModal(member)} className="btn btn-sm btn-outline-secondary" type="button">View Menu</button>
-						  {/* <button onClick={() => this.openModal(member)} className="btn btn-sm btn-outline-secondary" type="button">Edit Menu</button> */}
-                          {/* <button type="button" className="btn btn-sm btn-outline-secondary">Book Now!</button>
-                                          //<DateTimePicker
-                    onChange={this.onChange}
-                    value={this.state.date}
-                  /> */}
                         </div>
                         <small className="text-muted"></small>
                       </div>
@@ -204,10 +192,10 @@ export default class MyRestaurants extends Component {
             <Modal style={customStyles}
                 isOpen={this.state.menuModalisOpen}
                 onRequestClose={this.closeMenuModal}>
-                <h1 style={headStyles}>{this.state.resturantName} Menu</h1>
+                <h1 style={headStylesMenu}>{this.state.resturantName} Menu</h1>
                 <br/><br/>
                 {this.state.menu.map(meal => 
-                    <div><h1>{meal.MEAL_NAME} - ${meal.MEAL_UNIT_PRICE}</h1></div>
+                <div style={{borderBottom:"2px dotted #B5ABAB",fontFamily:'Arial,Verdana,Sans-serif'}} ><h2>{meal.MEAL_NAME}<span style={priceStyles}>${meal.MEAL_UNIT_PRICE}</span></h2><br/></div>
                 )}
             </Modal>
           </div>

@@ -11,7 +11,7 @@ class Login extends Component {
         this.Auth = new Authentication();
     }
 
-    handleSubmit(e){
+    handleSubmit(e){//props pages in associate with routes
       this.Auth.login(this.state.username,this.state.password)
         .then(res =>{
           this.props.history.replace('/');
@@ -36,7 +36,7 @@ class Login extends Component {
       if(this.Auth.loggedIn())
           this.props.history.replace('/');
     }
-
+//this renders a login page when click
     render() {
         return (
             <div className="center">

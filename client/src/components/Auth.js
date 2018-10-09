@@ -11,7 +11,7 @@ export default function Auth(AuthComponent) {
             }
         }
 
-        componentWillMount() {
+        componentWillMount() {//decide which page to display when login ,use method in Authentication
             if (!Auth.loggedIn()) {
                 this.props.history.replace('/login')
             }
@@ -30,7 +30,7 @@ export default function Auth(AuthComponent) {
         }
 
         render() {
-            if (this.state.user) {
+            if (this.state.user) {//this happens when login success
                 return (
                     <AuthComponent history={this.props.history} user={this.state.user} />
                 )

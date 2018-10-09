@@ -6,7 +6,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import { Route, Redirect } from 'react-router-dom';
-
 import {
   Collapse,
   NavbarToggler,
@@ -19,7 +18,7 @@ import {
   Navbar,
   Nav } from 'reactstrap';
 
-
+//this return items when changes routes
 const NavItem = props => {
   const pageURI = window.location.pathname+window.location.search
   const liClassName = (props.path === pageURI) ? "nav-item active" : "nav-item";
@@ -33,9 +32,8 @@ const NavItem = props => {
     </li>
   );
 }
-
+//this class is a navigation bar
 class Navigation extends React.Component {
-
   constructor(props){
     super();
     
@@ -95,15 +93,6 @@ class Navigation extends React.Component {
                 <FontAwesomeIcon className="userIcon" icon={faUserCircle} size="lg"></FontAwesomeIcon>
                 </DropdownToggle>
                 <DropdownMenu right className="userIconDropDown" style={{fontSize:'15px'}}>
-                {/* {decoded.IS_OWNER == 1 ? 
-                    <div>
-                    <DropdownItem>
-                      <a href="/createResturant">
-                        Create Resutrant
-                      </a>
-                    </DropdownItem>
-                    <DropdownItem divider /></div>
-                    : null} */}
                     <DropdownItem>
                     <div onClick={this.logout}>
                       Logout

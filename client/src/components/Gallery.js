@@ -4,8 +4,7 @@ import Authentication from './Authentication';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import decode from 'jwt-decode';
 import Datetime from 'react-datetime';
-
-
+import "./css/modalTransition.css";
 
 const customStyles = {
   content : {
@@ -20,16 +19,6 @@ const customStyles = {
   }
 };
 
-const buttonStyles = {
-      color:'white',
-      width:'20%',
-      position:'absolute',
-      left:'230px',
-      bottom:'10px',
-      height:'50px',
-      backgroundColor:'steelblue'
-};
-
 const headStyles = {
   color:'white',
   textAlign:'center',
@@ -42,18 +31,27 @@ const headStyles = {
   backgroundColor:'steelblue'
 };
 
-const textStyles = {
+const headStylesMenu = {
+  color:'white',
   textAlign:'center',
-  textStyles:'bold',
-  fontSize:'20px',
-  color:'steelblue',
-  fontFamily:'Arial,Verdana,Sans-serif',
+  width:'100%',
   position:'absolute',
-  top:'100px'
+  top:'0',
+  right:'0',
+  left:'0',
+  height:'50px',
+  backgroundColor:'tomato'
 };
 
-const nameStyles = {
-  paddingLeft:'82px'
+const priceStyles = {
+    width:"50px",
+    height:"50px",
+    borderRadius:"50%",
+    fontSize:"25px",
+    color:"white",
+    lineHeight:"50px",
+    float:"right",
+    backgroundColor:"tomato",
 };
 
 export default class Gallery extends Component {
@@ -76,14 +74,7 @@ export default class Gallery extends Component {
       date: new Date(),
       booked: false,
       bookedText: '',
-      menu: [],
-      // formErrors: {firstName: '', password: ''},
-      // password: '',
-      // passwordValid: false,
-      // firstNameValid: false,
-      // formValid: false,
-      // valuesChanged: false,
-
+      menu: []
     }
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
@@ -135,7 +126,6 @@ export default class Gallery extends Component {
   }
 
   handleEdit(event) {
-    //Edit functionality
     event.preventDefault()
     console.log("EDIT");
   }
@@ -181,7 +171,6 @@ export default class Gallery extends Component {
     const name = e.target.name;
     const value = e.target.value;
     this.setState({[name]: value});
-      // () => { this.validateField(name, value) });
     this.setState({valuesChanged: true});
   }
 
@@ -210,39 +199,6 @@ export default class Gallery extends Component {
 
   }
 
-  // validateField(fieldName, value) {
-  //   let fieldValidationErrors = this.state.formErrors;
-  //   let firstNameValid = this.state.firstNameValid;
-  //   let passwordValid = this.state.passwordValid;
-  //   switch(fieldName) {
-  //     // case 'email':
-  //     //   emailValid = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
-  //     //   fieldValidationErrors.email = emailValid ? '' : ' is invalid';
-  //     //   break;
-  //     case 'password':
-  //       passwordValid = value.length >= 6;
-  //       fieldValidationErrors.password = passwordValid ? '' : 'Password is too short';
-  //       passwordValid ? this.setState({valuesChanged: false}) :  null;
-  //       break;
-  //     case 'firstName':
-  //       firstNameValid = value.length >=1;
-  //       fieldValidationErrors.firstName = firstNameValid ? '' : 'Please Enter your First name';
-  //     case 'lastName':
-  //     default:
-  //       break;
-  //   }
-  //   this.setState({formErrors: fieldValidationErrors,
-  //                   firstNameValid: firstNameValid,
-  //                   passwordValid: passwordValid
-  //                 }, this.validateForm);
-  // }
-  
-  // validateForm() {
-  //   this.setState({formValid: this.state.emailValid && this.state.passwordValid});
-  // }
-
-  
-
   render() {
     const loggedIn = localStorage.getItem('id_token');
     const decoded = decode(localStorage.getItem('id_token'));
@@ -267,7 +223,7 @@ export default class Gallery extends Component {
       yesterday.setDate(yesterday.getDate()-1);
       return current.isAfter(yesterday);
     };
-    // var passwordValid = this.state.passwordValid == false && this.state.valuesChanged == true ?  <div className="alert alert-danger">{this.state.formErrors.password}</div> : null ;
+
     var bookedAlert = this.state.booked ?  <div className="alert alert-success">{this.state.bookedText}</div> : null ;
     
     return (      
@@ -287,11 +243,6 @@ export default class Gallery extends Component {
                         <div className="btn-group">
                           <button onClick={() => this.menuModal(member)} className="btn btn-sm btn-outline-secondary" type="button">View Menu</button>
                           <button onClick={() => this.openModal(member)} className="btn btn-sm btn-outline-secondary" type="button">Book Now!</button>
-                          {/* <button type="button" className="btn btn-sm btn-outline-secondary">Book Now!</button>
-                                          //<DateTimePicker
-                    onChange={this.onChange}
-                    value={this.state.date}
-                  /> */}
                         </div>
                         <small className="text-muted">{member.RESTAURANT_DESCRIPTION}</small>
                       </div>
@@ -372,10 +323,10 @@ export default class Gallery extends Component {
             <Modal style={customStyles}
                 isOpen={this.state.menuModalisOpen}
                 onRequestClose={this.closeMenuModal}>
-                <h1 style={headStyles}>{this.state.resturantName} Menu</h1>
+                <h1 style={headStylesMenu}>{this.state.resturantName} Menu</h1>
                 <br/><br/>
                 {this.state.menu.map(meal => 
-                    <div><h1>{meal.MEAL_NAME} - ${meal.MEAL_UNIT_PRICE}</h1></div>
+                <div style={{borderBottom:"2px dotted #B5ABAB",fontFamily:'Arial,Verdana,Sans-serif'}} ><h2>{meal.MEAL_NAME}<span style={priceStyles}>${meal.MEAL_UNIT_PRICE}</span></h2><br/></div>
                 )}
             </Modal>
           </div>

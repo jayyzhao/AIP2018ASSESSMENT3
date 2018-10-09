@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Slider from "./Slider";
 
 class signUp extends Component {
+  //this page deals with sign up and handles user information with error checkinng,then submit to server
     constructor() {
         super();
         this.state = {
@@ -17,14 +18,12 @@ class signUp extends Component {
             passwordAlert: false,
         };
         this.handleSubmit = this.handleSubmit.bind(this);
-        // this.handleFood = this.handleFood.bind(this);
       }
 
       handleUserInput (e) {
         const name = e.target.name;
         const value = e.target.value;
         this.setState({[name]: value});
-          // () => { this.validateField(name, value) });
         this.setState({valuesChanged: true});
       }
 
@@ -136,7 +135,6 @@ class signUp extends Component {
                     />
                   </div>              
                   <button type="submit" className="btn btn-primary" 
-                    // disabled={!this.state.formValid}
                     >Create Account!</button>
                 </form>
           </div>

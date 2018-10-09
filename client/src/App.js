@@ -11,6 +11,7 @@ import "react-table/react-table.css";
 
 
 class App extends Component {
+  //App renders whole page and navigation can be changed when logged in ,use this to do a log out
 
   constructor(props){
     super();

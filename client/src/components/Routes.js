@@ -13,9 +13,9 @@ export default () =>
     <Route path="/" exact component={Gallery} />
     <Route path="/login" exact component={Login} />
     <Route path="/Book" exact component={Bookings} />
-	<Route path="/MyRestaurants" exact component={MyRestaurants} />
-	<Route path="/RestaurantBookings" exact component={RestaurantBookings} />
-  <Route path="/createResturant" exact component={createResturant} />
-  <Route path="/signUp" exact component={signUp} />
+	  <Route path="/MyRestaurants" exact component={MyRestaurants} />
+	  <Route path="/RestaurantBookings" exact component={RestaurantBookings} />
+    <Route path="/createResturant" exact component={createResturant} />
+    <Route path="/signUp" exact component={signUp} />
   
   </Switch>;

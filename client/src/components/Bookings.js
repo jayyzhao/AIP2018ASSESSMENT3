@@ -20,16 +20,6 @@ const customStyles = {
     }
   };
   
-  const buttonStyles = {
-        color:'white',
-        width:'20%',
-        position:'absolute',
-        left:'230px',
-        bottom:'10px',
-        height:'50px',
-        backgroundColor:'steelblue'
-  };
-  
   const headStyles = {
     color:'white',
     textAlign:'center',
@@ -41,25 +31,13 @@ const customStyles = {
     height:'50px',
     backgroundColor:'steelblue'
   };
-  
-  const textStyles = {
-    textAlign:'center',
-    textStyles:'bold',
-    fontSize:'20px',
-    color:'steelblue',
-    fontFamily:'Arial,Verdana,Sans-serif',
-    position:'absolute',
-    top:'100px'
-  };
-  
-  const nameStyles = {
-    paddingLeft:'82px'
-  };
+
 
 class Bookings extends Component {
     constructor() {
         super();
         this.Auth = new Authentication();
+        //initializing data that will be used
         this.state = {
             data: [],
             user : [],
@@ -78,6 +56,7 @@ class Bookings extends Component {
             menu: [],
             meal:[{mealID: '', mealQty: ''}]
         };
+        //bind methods
         this.openModal = this.openModal.bind(this);
         this.openFood = this.openFood.bind(this);
         this.closeModal = this.closeModal.bind(this);
@@ -85,7 +64,6 @@ class Bookings extends Component {
         this.cancelBooking = this.cancelBooking.bind(this);
         this.handleDateTimeChange = this.handleDateTimeChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        // this.handleFood = this.handleFood.bind(this);
       }
 
     componentWillMount() {
@@ -111,14 +89,13 @@ class Bookings extends Component {
           })
         .catch(err =>{
             console.log(err);
-              
         })
 
     }
     }
 
         openModal(booking) {
-
+            //open a modal while passing data
             this.setState({
                 modalIsOpen: true,
                 pax: booking.BOOKING_COUNT_PEOPLE,
@@ -130,7 +107,7 @@ class Bookings extends Component {
         }
 
         openFood(booking) {
-
+            // use fetch to get data from server
             this.Auth.fetch('/user/booking/menu', {
                 method: 'POST',
                 body: JSON.stringify(booking)
@@ -183,9 +160,7 @@ class Bookings extends Component {
             event.preventDefault()
             console.log("EDIT");
           }
-        // handelFood(event){
 
-        // }
         
           handleDateTimeChange(event) {
             this.setState({
@@ -405,36 +380,10 @@ class Bookings extends Component {
                     />
                   </div>
                   <button type="submit" className="btn btn-primary" 
-                    // disabled={!this.state.formValid}
                     >Change Booking Time!</button>
                 </form>
             </Modal>
 
-            {/* <Modal style={customStyles}
-                isOpen={this.state.orderFood}
-                onRequestClose={this.closeFood}>
-                <h1 style={headStyles}>{this.state.resturantName}</h1>
-                <br/><br/>
-                <form className="bookTable" onSubmit={this.handleSubmit}>
-                  <h2>Order Your Food!</h2>
-                  {this.state.menu.map(meal => 
-                    <div className="form-group">
-                    <label htmlFor="email">{meal.MEAL_NAME} - ${meal.MEAL_UNIT_PRICE}</label>
-                        <input 
-                        type="number" 
-                        className="form-control"
-                        name='meal[]'
-                        max={10}
-                        value={this.state.menu.qty} 
-                        onChange={(event) => this.hadleFood(event)}
-                        />
-                    </div>
-                  )}                                    
-                  <button type="submit" className="btn btn-primary" 
-                    // disabled={!this.state.formValid}
-                    >Order!</button>
-                </form>
-            </Modal> */}
             </div>
         );
     }
