@@ -20,7 +20,7 @@ class signUp extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
       }
 
-      handleUserInput (e) {
+      handleUserInput (e) {//set user input info to what we get
         const name = e.target.name;
         const value = e.target.value;
         this.setState({[name]: value});
@@ -28,7 +28,7 @@ class signUp extends Component {
       }
 
       handleSubmit(e){
-        
+        //format checking
         if(this.state.password != this.state.confirmPassword){
             this.setState({passwordText: "Password Does Not Match", passwordAlert: true});
         }

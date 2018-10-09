@@ -1,15 +1,20 @@
+/*Reference:https://github.com/1364137942/react-slide*/
+
 import React, { Component } from 'react';
 import "./css/Slider.css";
-const imgUrl = [
+
+const imgUrl = [//require funtion to get pictures in disk
 	{ "url": require("../images/restaurant1.png"), "alt": "1", "title": " " },
 	{ "url": require("../images/restaurant2.png"), "alt": "2", "title": " " },
 	{ "url": require("../images/restaurant3.png"), "alt": "3", "title": " " },
 	{ "url": require("../images/restaurant4.png"), "alt": "4", "title": " " },
 	{ "url": require("../images/restaurant5.png"), "alt": "5", "title": " " }
 ];
+
 function callBack() {
 
 }
+
 //Carousel configration
 const slideConfig = {
 	width: 1109,
@@ -33,7 +38,7 @@ function retAllWidth(imgArr) {
 
 class Slider extends Component {
 	Timer = "";
-	constructor(props) {
+	constructor(props) {//initializing data
 		super(props);
 		var allWidth = retAllWidth(imgUrl);
 		var liwidth = slideConfig.width;
@@ -49,7 +54,7 @@ class Slider extends Component {
 			call();
 		}
 	}
-	removeClass(domArr) {
+	removeClass(domArr) {//remove when current item is not needed
 		for (var i = 0; i < domArr.length; i++) {
 			domArr[i].classList.remove("curritem");
 		}
